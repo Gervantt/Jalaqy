@@ -1,6 +1,6 @@
 "use client";
 
-import type { InputHTMLAttributes, ReactNode } from "react";
+import type { InputHTMLAttributes, ReactNode, Ref } from "react";
 import { cn } from "@/lib/cn";
 import { controlClasses, describedBy, FieldShell, useFieldIds } from "./Field";
 
@@ -14,6 +14,7 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
   /** Иконка слева внутри поля. */
   startAdornment?: ReactNode;
   fieldClassName?: string;
+  ref?: Ref<HTMLInputElement>;
 }
 
 export function Input({

@@ -58,7 +58,8 @@ export function Table<Row>({
   return (
     <div className={cn("rounded-card-lg bg-surface px-2 pt-2 pb-1", className)}>
       <div
-        className="overflow-x-auto rounded-card"
+        // relative: скрытые подписи (sr-only) внутри не растягивают страницу
+        className="relative overflow-x-auto rounded-card"
         tabIndex={0}
         role="region"
         aria-label={`${caption}. ${t.ui.scrollableTable}`}

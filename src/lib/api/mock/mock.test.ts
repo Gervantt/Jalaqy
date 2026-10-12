@@ -1,0 +1,175 @@
+import { beforeEach, describe, expect, it } from "vitest";
+import { ApiError } from "../client";
+import { resetDb } from "./db";
+import { mockApi as api } from "./index";
+import { withCheckDigit } from "./seed";
+
+beforeEach(() => resetDb());
+
+describe("мок: зарплата за октябрь 2026", () => {
+  it("совпадает с макетом до тенге (суммы считает lib/payroll)", async () => {
+    const run = await api.payroll.get("2026-10");
+    expect(run.lines.map((l) => l.shortName)).toEqual([
+      "Мадина Ж.",
+      "Данияр К.",
+      "Асель Б.",
+      "Ерлан Т.",
+      "Айгерим С.",
+      "Тимур А.",
+    ]);
+    expect(run.totals).toMatchObject({
+      gross: 1_870_000,
+      net: 1_558_890,
+      withheld: 311_110,
+      employer: 304_436,
+      toBudget: 615_546,
+      cost: 2_174_436,
+    });
+    expect(run.status).toBe("calculated");
+    expect(run.taxDueDate).toBe("2026-11-25");
+  });
+
+  it("что изменилось с сентября: новый курьер и повышение Данияра", async () => {
+    const run = await api.payroll.get("2026-10");
+    expect(run.changes).toEqual([
+      { kind: "salary", employeeId: "daniyar", shortName: "Данияр К.", from: 280_000, to: 320_000 },
+      { kind: "hired", employeeId: "timur", shortName: "Тимур А.", position: "Курьер" },
+    ]);
+  });
+
+  it("неполный месяц: Айгерим принята 15 апреля", async () => {
+    const run = await api.payroll.get("2026-04");
+    const line = run.lines.find((l) => l.employeeId === "aigerim")!;
+    expect(line.workedDays).toBeLessThan(line.normDays);
+    expect(line.gross).toBeLessThan(250_000);
+    expect(line.isNew).toBe(true);
+  });
+
+  it("статусы: отправка → подтверждение, повторная отправка — конфликт", async () => {
+    await api.payroll.submit("2026-10");
+    expect((await api.payroll.get("2026-10")).status).toBe("awaiting_approval");
+    await expect(api.payroll.submit("2026-10")).rejects.toBeInstanceOf(ApiError);
+    await api.payroll.approve("2026-10");
+    expect((await api.payroll.get("2026-10")).status).toBe("approved");
+  });
+
+  it("выгрузка в 1С: CSV с BOM и строкой на сотрудника", async () => {
+    const file = await api.payroll.export1c("2026-10");
+    expect(file.content.startsWith("﻿")).toBe(true);
+    expect(file.content.split("\r\n")).toHaveLength(7);
+    expect(file.content).toContain("448575");
+  });
+});
+
+describe("мок: сотрудники", () => {
+  const valid = {
+    firstName: "Алия",
+    lastName: "Нурланова",
+    position: "Повар",
+    salary: 280_000,
+    hireDate: "2026-10-15",
+    iin: withCheckDigit("99010150012"),
+    hasDeduction: true,
+  };
+
+  it("создание пересчитывает октябрь с неполным месяцем", async () => {
+    await api.employees.create(valid);
+    const run = await api.payroll.get("2026-10");
+    expect(run.lines).toHaveLength(7);
+    const line = run.lines.at(-1)!;
+    expect(line.workedDays).toBe(11);
+    expect(line.gross).toBe(146_667); // 280 000 × 11 / 21
+  });
+
+  it("ошибки валидации — по полям", async () => {
+    const err = await api.employees
+      .create({ ...valid, salary: 50_000, iin: "123", firstName: "" })
+      .catch((e: unknown) => e);
+    expect(err).toBeInstanceOf(ApiError);
+    expect(Object.keys((err as ApiError).body.fields ?? {}).sort()).toEqual([
+      "firstName",
+      "iin",
+      "salary",
+    ]);
+  });
+
+  it("смена оклада и вычета меняет расчёт", async () => {
+    await api.employees.update("daniyar", { hasDeduction: false });
+    const run = await api.payroll.get("2026-10");
+    expect(run.lines.find((l) => l.employeeId === "daniyar")!.employee.ipn).toBe(28_160);
+  });
+
+  it("история выплат: с января по октябрь, свежие сверху", async () => {
+    const slips = await api.employees.payslips("madina");
+    expect(slips[0]?.period).toBe("2026-10");
+    expect(slips.at(-1)?.period).toBe("2026-01");
+    expect(slips[1]?.status).toBe("closed");
+  });
+
+  it("несуществующий — not_found", async () => {
+    await expect(api.employees.get("nobody")).rejects.toMatchObject({ status: 404 });
+  });
+});
+
+describe("мок: табель и налоги", () => {
+  it("отпуск без содержания уменьшает начисление", async () => {
+    await api.timesheet.createAbsence({
+      employeeId: "erlan",
+      type: "unpaid",
+      from: "2026-10-05",
+      to: "2026-10-09",
+    });
+    const line = (await api.payroll.get("2026-10")).lines.find((l) => l.employeeId === "erlan")!;
+    expect(line.workedDays).toBe(16);
+    expect(line.gross).toBe(190_476); // 250 000 × 16 / 21
+  });
+
+  it("одобрение отпуска списывает календарные дни", async () => {
+    await api.timesheet.decideAbsence("abs-1", "approved");
+    expect((await api.employees.get("asel")).vacationDaysLeft).toBe(7); // 12 − 5
+  });
+
+  it("заявка длиннее остатка отпуска не одобряется", async () => {
+    const db = (await import("./db")).getDb();
+    db.absences.push({
+      id: "abs-long",
+      employeeId: "timur",
+      type: "vacation",
+      from: "2026-11-02",
+      to: "2026-11-06",
+      status: "pending",
+      requestedAt: "2026-10-29T10:00:00Z",
+    });
+    const err = await api.timesheet.decideAbsence("abs-long", "approved").catch((e: unknown) => e);
+    expect((err as ApiError).body.fields?.decision).toMatch(/2 дн/);
+  });
+
+  it("налоги за октябрь = «в бюджет» из расчёта, срок 25 ноября", async () => {
+    const payments = await api.taxes.payments("2026-10");
+    expect(payments.reduce((s, p) => s + p.amount, 0)).toBe(615_546);
+    expect(payments.every((p) => p.dueDate === "2026-11-25" && p.status === "unpaid")).toBe(true);
+    await api.taxes.markPaid("2026-10:ipn");
+    expect((await api.taxes.payments("2026-10")).find((p) => p.kind === "ipn")?.status).toBe(
+      "paid",
+    );
+  });
+
+  it("табель октября: норма 21, 26 октября — праздник", async () => {
+    const sheet = await api.timesheet.get("2026-10");
+    expect(sheet.normDays).toBe(21);
+    expect(sheet.days.find((d) => d.date === "2026-10-26")).toMatchObject({
+      working: false,
+      holiday: true,
+    });
+  });
+});
+
+describe("мок: вход", () => {
+  it("код 0000 — ошибка, остальные 4 цифры — вход", async () => {
+    await expect(
+      api.auth.verifyCode({ contact: "+77011234514", code: "0000" }),
+    ).rejects.toBeInstanceOf(ApiError);
+    const s = await api.auth.verifyCode({ contact: "+77011234514", code: "1234" });
+    expect(s.role).toBe("accountant");
+  });
+});

@@ -21,6 +21,8 @@ export interface SidebarProps {
   activePath?: string;
   /** Вызывается при переходе по пункту (закрыть мобильное меню). */
   onNavigate?: () => void;
+  /** Низ меню: например, кнопка «Выйти». */
+  footer?: ReactNode;
   className?: string;
 }
 
@@ -61,6 +63,7 @@ export function SidebarContent({
   companyName,
   activePath,
   onNavigate,
+  footer,
 }: Omit<SidebarProps, "className">) {
   const pathname = usePathname();
   const current = activePath ?? pathname;
@@ -79,13 +82,14 @@ export function SidebarContent({
             </li>
           ))}
         </ul>
-        {footerItems.length > 0 && (
+        {(footerItems.length > 0 || footer) && (
           <ul className="m-0 flex list-none flex-col gap-1 border-t border-ink-divider p-0 pt-4">
             {footerItems.map((item) => (
               <li key={item.href}>
                 <NavLink item={item} active={isActivePath(current, item)} onNavigate={onNavigate} />
               </li>
             ))}
+            {footer && <li>{footer}</li>}
           </ul>
         )}
       </nav>

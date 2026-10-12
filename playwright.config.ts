@@ -6,9 +6,11 @@ const baseURL = `http://localhost:${PORT}`;
 export default defineConfig({
   testDir: "tests/e2e",
   outputDir: "test-results",
-  fullyParallel: true,
+  // мок-данные общие для сервера: тесты, которые их меняют, идут по одному
+  fullyParallel: false,
+  workers: 1,
   reporter: [["list"]],
-  use: { baseURL, locale: "ru-RU", timezoneId: "Asia/Almaty" },
+  use: { baseURL, locale: "ru-RU", timezoneId: "Asia/Almaty", screenshot: "only-on-failure" },
   projects: [
     {
       name: "mobile-390",
@@ -21,6 +23,7 @@ export default defineConfig({
   ],
   webServer: {
     command: `npm run build && npm run start -- -p ${PORT}`,
+    env: { JALAQY_E2E: "1" },
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,
