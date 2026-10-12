@@ -1,4 +1,3 @@
-import { t } from "@/i18n";
 import {
   Banner,
   Button,
@@ -8,7 +7,9 @@ import {
   Table,
   type TableColumn,
 } from "@/components/ui";
+import { interpolate, t } from "@/i18n";
 import { formatNumber, formatTenge } from "@/lib/format";
+import { calculatePayroll, rates2026, type EmployeeMonthResult } from "@/lib/payroll";
 import { DemoPanel } from "./StateRow";
 
 const k = t.styleguide.kit;
@@ -16,62 +17,48 @@ const d = k.data;
 const b = k.banners;
 const tb = k.table;
 
-interface DemoRow {
+interface DemoEmployee {
+  id: string;
   name: string;
   role: string;
-  salary: number;
-  opv: number;
-  vosms: number;
-  ipn: number;
-  net: number;
+  gross: number;
 }
 
-/** Цифры из design/Payroll.dc.html — только для витрины. В панели их считает lib/payroll. */
-const rows: DemoRow[] = [
-  {
-    name: "Мадина Ж.",
-    role: "Управляющая",
-    salary: 550000,
-    opv: 55000,
-    vosms: 11000,
-    ipn: 35425,
-    net: 448575,
-  },
-  {
-    name: "Данияр К.",
-    role: "Старший бариста",
-    salary: 320000,
-    opv: 32000,
-    vosms: 6400,
-    ipn: 15185,
-    net: 266415,
-  },
-  {
-    name: "Асель Б.",
-    role: "Кондитер",
-    salary: 300000,
-    opv: 30000,
-    vosms: 6000,
-    ipn: 13425,
-    net: 250575,
-  },
+/** Оклады из design/Payroll.dc.html; суммы считает lib/payroll. */
+const employees: DemoEmployee[] = [
+  { id: "madina", name: "Мадина Ж.", role: "Управляющая", gross: 550_000 },
+  { id: "daniyar", name: "Данияр К.", role: "Старший бариста", gross: 320_000 },
+  { id: "asel", name: "Асель Б.", role: "Кондитер", gross: 300_000 },
+  { id: "erlan", name: "Ерлан Т.", role: "Бариста", gross: 250_000 },
+  { id: "aigerim", name: "Айгерим С.", role: "Бариста", gross: 250_000 },
+  { id: "timur", name: "Тимур А.", role: "Курьер", gross: 200_000 },
 ];
 
-const sum = (key: keyof Omit<DemoRow, "name" | "role">) => rows.reduce((a, r) => a + r[key], 0);
+const payroll = calculatePayroll(
+  employees.map((e) => ({ id: e.id, gross: e.gross, hasDeduction: true })),
+  rates2026,
+);
+const totals = payroll.totals;
+
+type Row = DemoEmployee & { result: EmployeeMonthResult };
+const rows: Row[] = payroll.lines.map((line, i) => ({ ...employees[i]!, result: line.result }));
+
 const num = (
-  key: keyof Omit<DemoRow, "name" | "role">,
-  label: string,
+  key: string,
+  header: string,
+  pick: (r: EmployeeMonthResult) => number,
+  total: number,
   emphasis = false,
-): TableColumn<DemoRow> => ({
+): TableColumn<Row> => ({
   key,
-  header: label,
+  header,
   align: "right",
   emphasis,
-  render: (r) => formatNumber(r[key]),
-  footer: formatNumber(sum(key)),
+  render: (r) => formatNumber(pick(r.result)),
+  footer: formatNumber(total),
 });
 
-const columns: TableColumn<DemoRow>[] = [
+const columns: TableColumn<Row>[] = [
   {
     key: "name",
     header: tb.employee,
@@ -83,20 +70,29 @@ const columns: TableColumn<DemoRow>[] = [
     ),
     footer: tb.total,
   },
-  num("salary", tb.salary),
-  num("opv", tb.opv),
-  num("vosms", tb.vosms),
-  num("ipn", tb.ipn),
-  num("net", tb.net, true),
+  num("salary", tb.salary, (r) => r.gross, totals.gross),
+  num("opv", tb.opv, (r) => r.employee.opv, totals.opv),
+  num("vosms", tb.vosms, (r) => r.employee.vosms, totals.vosms),
+  num("ipn", tb.ipn, (r) => r.employee.ipn, totals.ipn),
+  num("net", tb.net, (r) => r.net, totals.net, true),
 ];
+
+const daniyar = rows[1]!.result;
 
 export function DataDemo() {
   return (
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-3">
-        <KpiTile tone="ink" label={d.toPay} value={1558890} />
-        <KpiTile label={d.taxes} value={615546} hint={d.taxesHint} />
-        <KpiTile label={d.fot} value={2174436} />
+        <KpiTile tone="ink" label={d.toPay} value={totals.net} />
+        <KpiTile
+          label={d.taxes}
+          value={totals.toBudget}
+          hint={interpolate(d.taxesHint, {
+            withheld: formatNumber(totals.withheld),
+            employer: formatNumber(totals.employer),
+          })}
+        />
+        <KpiTile label={d.fot} value={totals.cost} />
         <KpiTile label={d.fot} value={0} loading />
       </div>
       <div className="grid gap-3 md:grid-cols-2">
@@ -118,7 +114,7 @@ export function DataDemo() {
           <div className="text-sm text-on-ink-soft">{d.inkTitle}</div>
           <div className="flex items-baseline gap-2">
             <span className="font-display text-2xl font-extrabold text-accent tabular-nums">
-              {formatTenge(52096)}
+              {formatTenge(daniyar.employer.total)}
             </span>
             <span className="text-sm text-on-ink-soft">{d.inkHint}</span>
           </div>
@@ -148,14 +144,14 @@ export function DataDemo() {
         </Banner>
       </div>
       <h3 className="mt-2 text-sm font-bold">{k.sections.table}</h3>
-      <Table caption={tb.caption} columns={columns} rows={rows} rowKey={(r) => r.name} footer />
+      <Table caption={tb.caption} columns={columns} rows={rows} rowKey={(r) => r.id} footer />
       <p className="text-caption text-muted">{tb.note}</p>
       <DemoPanel tone="paper" title={tb.emptyCaption}>
         <Table
           caption={tb.emptyCaption}
           columns={columns}
           rows={[]}
-          rowKey={(r) => r.name}
+          rowKey={(r) => r.id}
           minWidth={320}
           empty={<span className="text-muted">{tb.empty}</span>}
         />
