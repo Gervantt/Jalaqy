@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { MobileContent } from "@/components/mobile/MobileShell";
-import { Card, Skeleton } from "@/components/ui";
-import { IconChevronLeft } from "@/components/ui/icons";
+import { Card, EmptyState, Skeleton } from "@/components/ui";
+import { IconChevronLeft, IconUsers } from "@/components/ui/icons";
 import { interpolate, t } from "@/i18n";
 import { api } from "@/lib/api";
 import { currentPeriod } from "@/lib/clock";
@@ -20,6 +20,9 @@ async function Breakdown() {
   const period = currentPeriod();
   const run = await api.payroll.get(period);
   const { year, monthIndex } = parsePeriod(period);
+  if (run.lines.length === 0) {
+    return <EmptyState icon={<IconUsers size={26} />} title={o.breakdownEmpty} headingLevel={2} />;
+  }
   return (
     <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
       {run.lines.map((l) => (

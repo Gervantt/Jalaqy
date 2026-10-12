@@ -57,6 +57,7 @@ export function NavDemo() {
         <div className="flex min-w-0 flex-col gap-4">
           <DemoPanel title={n.pageHeader} tone="paper">
             <PageHeader
+              level={2}
               meta={n.headerMeta}
               title={n.headerTitle}
               actions={
@@ -66,7 +67,7 @@ export function NavDemo() {
                 </>
               }
             />
-            <PageHeader back={{ href: "/styleguide", label: n.back }} title="Данияр К." />
+            <PageHeader level={2} back={{ href: "/styleguide", label: n.back }} title="Данияр К." />
           </DemoPanel>
           <div className="flex flex-col gap-2">
             <span className="text-xs font-semibold text-muted">{n.mobileBar}</span>

@@ -39,6 +39,7 @@ export const mobile = {
     withheld: "Удержано",
     employer: "Компания сверху",
     backToSummary: "К итогам",
+    breakdownEmpty: "В этом месяце пока некого считать",
   },
   me: {
     title: "{month}",

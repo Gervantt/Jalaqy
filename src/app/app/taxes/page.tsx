@@ -4,20 +4,23 @@ import {
   Badge,
   Banner,
   buttonClasses,
+  ButtonLink,
   Card,
+  EmptyState,
   KpiTile,
   PageHeader,
   StatusPill,
   Table,
   type TableColumn,
 } from "@/components/ui";
-import { IconDownload } from "@/components/ui/icons";
+import { IconChart, IconDownload } from "@/components/ui/icons";
 import { interpolate, t } from "@/i18n";
 import { api } from "@/lib/api";
 import type { TaxPayment, TaxReport } from "@/lib/api/contracts";
 import { currentPeriod, daysUntil } from "@/lib/clock";
 import { formatCount, formatDate, formatNumber, monthName } from "@/lib/format";
-import { isPeriod, parsePeriod } from "@/lib/period";
+import { isSupportedPeriod, parsePeriod } from "@/lib/period";
+import { supportedYears } from "@/lib/payroll";
 import { requireSession } from "@/lib/session";
 import { PageSkeleton } from "../_components/PageSkeleton";
 import { MarkPaidButton } from "./MarkPaidButton";
@@ -41,7 +44,7 @@ function reportBadge(r: TaxReport) {
 async function TaxesView({ searchParams }: { searchParams: Promise<{ period?: string }> }) {
   const session = await requireSession(["accountant", "owner"]);
   const sp = await searchParams;
-  const period = isPeriod(sp.period) ? sp.period : currentPeriod();
+  const period = isSupportedPeriod(sp.period, supportedYears()) ? sp.period : currentPeriod();
   const [payments, reports] = await Promise.all([api.taxes.payments(period), api.taxes.reports()]);
   const { monthIndex, year } = parsePeriod(period);
   const month = monthName(monthIndex);
@@ -117,6 +120,21 @@ async function TaxesView({ searchParams }: { searchParams: Promise<{ period?: st
       },
     },
   ];
+
+  if (total === 0) {
+    return (
+      <>
+        <PageHeader title={tx.title} meta={interpolate(tx.meta, { month: `${month} ${year}` })} />
+        <EmptyState
+          icon={<IconChart size={26} />}
+          title={interpolate(tx.empty.title, { month })}
+          action={<ButtonLink href="/app/employees">{tx.empty.action}</ButtonLink>}
+        >
+          {tx.empty.text}
+        </EmptyState>
+      </>
+    );
+  }
 
   return (
     <>

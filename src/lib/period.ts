@@ -77,3 +77,11 @@ export function quarterOf(period: Period): string {
   const { year, monthIndex } = parsePeriod(period);
   return `${year}-Q${Math.floor(monthIndex / 3) + 1}`;
 }
+
+/** Период корректен и для его года есть ставки и календарь. */
+export function isSupportedPeriod(
+  value: string | undefined | null,
+  years: number[],
+): value is Period {
+  return isPeriod(value) && years.includes(parsePeriod(value).year);
+}

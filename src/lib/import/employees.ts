@@ -1,10 +1,11 @@
 import type { EmployeeInput } from "@/lib/api/contracts";
+import { t } from "@/i18n";
 import { hasErrors, validateEmployeeInput } from "@/lib/validation/forms";
 import { parseCsv } from "./csv";
 
-export const EMPLOYEES_CSV_TEMPLATE =
-  "﻿ФИО;Должность;Оклад;Дата приёма;ИИН;Вычет\r\n" +
-  "Касымов Данияр;Бариста;320000;01.10.2026;;да\r\n";
+const imp = t.documents.importCsv;
+
+export const EMPLOYEES_CSV_TEMPLATE = `\uFEFF${imp.header}\r\n${imp.example}\r\n`;
 
 export interface ImportResult {
   employees: EmployeeInput[];
@@ -12,7 +13,7 @@ export interface ImportResult {
   errors: Array<{ line: number; message: string }>;
 }
 
-const YES = new Set(["да", "yes", "1", "+", "true", "есть", "иә"]);
+const YES = new Set<string>(imp.yes);
 
 /** «01.10.2026» или «2026-10-01» → «2026-10-01». */
 function parseDate(value: string): string {
@@ -37,7 +38,8 @@ export function importEmployeesCsv(text: string): ImportResult {
   const result: ImportResult = { employees: [], errors: [] };
   rows.forEach((cells, index) => {
     const line = index + 1;
-    if (index === 0 && /фио|имя|name/i.test(cells[0] ?? "")) return;
+    const first = (cells[0] ?? "").trim().toLowerCase();
+    if (index === 0 && imp.headerWords.some((w) => first.includes(w))) return;
     const [fio = "", position = "", salary = "", hired = "", iin = "", deduction = ""] = cells.map(
       (c) => c.trim(),
     );

@@ -1,5 +1,6 @@
 import { interpolate, t } from "@/i18n";
 import { formatDate } from "@/lib/format/date";
+import { formatTenge } from "@/lib/format/tenge";
 import { parsePeriod, periodEnd, quarterOf } from "@/lib/period";
 import { workingDays } from "@/lib/payroll";
 import { parseLoginContact } from "@/lib/validation/contact";
@@ -23,6 +24,7 @@ import type {
 import { clone, findEmployee, latency, notFound, now, v, validation } from "./core";
 import { getDb, nextId } from "./db";
 import { buildPayrollRun, isEmployedIn, payslips, taxDueDate } from "./payroll";
+import { withFailures } from "./failures";
 import { self } from "./self";
 import { CURRENT_PERIOD } from "./seed";
 
@@ -85,7 +87,7 @@ function csv(rows: Array<Array<string | number>>): string {
   return "﻿" + rows.map((r) => r.map(cell).join(";")).join("\r\n");
 }
 
-export const mockApi: JalaqyApi = {
+const baseApi: JalaqyApi = {
   auth: {
     async requestCode({ contact }) {
       await latency();
@@ -110,7 +112,7 @@ export const mockApi: JalaqyApi = {
           ? {
               userId: "u-daniyar",
               role: "employee",
-              name: "Данияр К.",
+              name: findEmployee("daniyar").shortName,
               companyId: db.company.id,
               employeeId: "daniyar",
             }
@@ -244,20 +246,7 @@ export const mockApi: JalaqyApi = {
       const run = buildPayrollRun(db, period);
       const iin = new Map(db.employees.map((e) => [e.id, e.iin]));
       const rows: Array<Array<string | number>> = [
-        [
-          "ИИН",
-          "Сотрудник",
-          "Должность",
-          "Начислено",
-          "ОПВ",
-          "ВОСМС",
-          "ИПН",
-          "К выплате",
-          "ОПВР",
-          "СО",
-          "ООСМС",
-          "Соцналог",
-        ],
+        [...t.documents.export1c.header],
         ...run.lines.map((l) => [
           iin.get(l.employeeId) ?? "",
           l.shortName,
@@ -382,14 +371,15 @@ export const mockApi: JalaqyApi = {
       const payment = taxPayments(period).find((p) => p.kind === kind) ?? notFound();
       const db = getDb();
       const [short, long] = t.domain.taxKinds[payment.kind];
+      const d = t.documents.paymentOrder;
       const content = [
-        "ПЛАТЁЖНОЕ ПОРУЧЕНИЕ — ЧЕРНОВИК (демо)",
-        `Плательщик: ${db.company.name}, БИН ${db.company.bin}`,
-        `Платёж: ${short} — ${long}`,
-        `Период: ${formatDate(`${period}-01`, "monthYear")}`,
-        `Сумма: ${payment.amount} ₸`,
-        `Срок уплаты: ${formatDate(payment.dueDate)}`,
-        `Квартал отчётности: ${quarterOf(period)}`,
+        d.title,
+        interpolate(d.payer, { company: db.company.name, bin: db.company.bin }),
+        interpolate(d.payment, { short, long }),
+        interpolate(d.period, { period: formatDate(`${period}-01`, "monthYear") }),
+        interpolate(d.amount, { amount: formatTenge(payment.amount) }),
+        interpolate(d.due, { date: formatDate(payment.dueDate) }),
+        interpolate(d.quarter, { quarter: quarterOf(period) }),
       ].join("\r\n");
       return { filename: `jalaqy-${period}-${kind}.txt`, content };
     },
@@ -414,3 +404,6 @@ export const mockApi: JalaqyApi = {
     },
   },
 };
+
+/** Мок с управляемыми сбоями (см. ./failures). */
+export const mockApi: JalaqyApi = withFailures(baseApi);

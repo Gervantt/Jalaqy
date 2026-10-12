@@ -6,6 +6,7 @@
 import { app } from "./ru/app";
 import { auth } from "./ru/auth";
 import { core } from "./ru/core";
+import { documents } from "./ru/documents";
 import { domain } from "./ru/domain";
 import { employees } from "./ru/employees";
 import { landing } from "./ru/landing";
@@ -26,5 +27,6 @@ export const ru = {
   settings,
   mobile,
   landing,
+  documents,
   styleguide,
 } as const;

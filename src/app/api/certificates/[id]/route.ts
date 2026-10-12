@@ -1,4 +1,4 @@
-import { t } from "@/i18n";
+import { interpolate, t } from "@/i18n";
 import { api } from "@/lib/api";
 import { formatDate } from "@/lib/format";
 import { getSession } from "@/lib/session";
@@ -15,12 +15,16 @@ export async function GET(_request: Request, ctx: RouteContext<"/api/certificate
   ]);
   const cert = list.find((c) => c.id === id && c.status === "ready");
   if (!cert) return new Response(null, { status: 404 });
+  const d = t.documents.certificate;
   const content = [
-    `СПРАВКА — ${t.mobile.certificate.kinds[cert.kind].toUpperCase()} (демо)`,
-    `${company.name}, БИН ${company.bin}`,
-    `${employee.lastName} ${employee.firstName}, ${employee.position}`,
-    `Работает с ${formatDate(employee.hireDate)}`,
-    `Назначение: ${cert.purpose}`,
+    interpolate(d.title, { kind: t.mobile.certificate.kinds[cert.kind].toUpperCase() }),
+    interpolate(d.company, { company: company.name, bin: company.bin }),
+    interpolate(d.employee, {
+      name: `${employee.lastName} ${employee.firstName}`,
+      position: employee.position,
+    }),
+    interpolate(d.since, { date: formatDate(employee.hireDate) }),
+    interpolate(d.purpose, { purpose: cert.purpose }),
   ].join("\r\n");
   return new Response(content, {
     headers: {

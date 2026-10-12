@@ -7,7 +7,8 @@ import { interpolate, t } from "@/i18n";
 import { api } from "@/lib/api";
 import { currentPeriod, today } from "@/lib/clock";
 import { formatCount, formatPeriod, monthName } from "@/lib/format";
-import { isPeriod, parsePeriod, shiftPeriod } from "@/lib/period";
+import { isSupportedPeriod, parsePeriod, shiftPeriod } from "@/lib/period";
+import { supportedYears } from "@/lib/payroll";
 import { requireSession } from "@/lib/session";
 import { PageSkeleton } from "../_components/PageSkeleton";
 import { AbsenceStatusBadge } from "../_components/StatusBadges";
@@ -42,7 +43,7 @@ function MonthLink({ period, dir }: { period: string; dir: -1 | 1 }) {
 async function TimesheetView({ searchParams }: { searchParams: Promise<{ month?: string }> }) {
   const session = await requireSession(["accountant", "owner"]);
   const { month } = await searchParams;
-  const period = isPeriod(month) ? month : currentPeriod();
+  const period = isSupportedPeriod(month, supportedYears()) ? month : currentPeriod();
   const [sheet, employees, pending] = await Promise.all([
     api.timesheet.get(period),
     api.employees.list(),

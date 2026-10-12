@@ -23,7 +23,8 @@ import {
   formatTenge,
   monthName,
 } from "@/lib/format";
-import { isPeriod, parsePeriod } from "@/lib/period";
+import { isSupportedPeriod, parsePeriod } from "@/lib/period";
+import { supportedYears } from "@/lib/payroll";
 import { requireSession } from "@/lib/session";
 import { SubmitButton } from "./SubmitButton";
 
@@ -47,7 +48,7 @@ export async function PayrollView({
 }) {
   const session = await requireSession(["accountant", "owner"]);
   const sp = await searchParams;
-  const period = isPeriod(sp.period) ? sp.period : currentPeriod();
+  const period = isSupportedPeriod(sp.period, supportedYears()) ? sp.period : currentPeriod();
   const [run, employees] = await Promise.all([api.payroll.get(period), api.employees.list()]);
   const { year, monthIndex } = parsePeriod(period);
   const month = `${monthName(monthIndex)} ${year}`;

@@ -17,7 +17,12 @@ const examples: Array<[string, string]> = [
 
 export function Formatting() {
   return (
-    <div className="overflow-x-auto rounded-card-lg bg-surface">
+    <div
+      className="relative overflow-x-auto rounded-card-lg bg-surface"
+      tabIndex={0}
+      role="region"
+      aria-label={`${t.styleguide.sections.formatting}. ${t.ui.scrollableTable}`}
+    >
       <table className="w-full min-w-[560px] border-collapse text-body">
         <tbody>
           {examples.map(([code, out]) => (

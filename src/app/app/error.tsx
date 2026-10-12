@@ -2,24 +2,28 @@
 
 import { Button, EmptyState } from "@/components/ui";
 import { IconAlert } from "@/components/ui/icons";
-import { t } from "@/i18n";
+import { interpolate, t } from "@/i18n";
 
 /** Ошибка загрузки раздела панели: понятный текст и повтор. */
 export default function AppError({
   error,
-  reset,
+  retry,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
+  retry: () => void;
 }) {
   return (
     <EmptyState
       icon={<IconAlert size={26} />}
-      title={t.app.errors.title}
-      action={<Button onClick={reset}>{t.ui.retry}</Button>}
+      title={t.ui.errorTitle}
+      action={<Button onClick={() => retry()}>{t.ui.retry}</Button>}
     >
-      {t.app.errors.text}
-      {error.digest && <span className="mt-2 block text-xs">#{error.digest}</span>}
+      {t.ui.errorText}
+      {error.digest && (
+        <span className="mt-2 block text-xs">
+          {interpolate(t.ui.errorCode, { digest: error.digest })}
+        </span>
+      )}
     </EmptyState>
   );
 }
