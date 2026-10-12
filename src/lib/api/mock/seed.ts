@@ -1,6 +1,7 @@
 import { iinCheckDigit } from "@/lib/validation/iin";
 import type {
   Absence,
+  Certificate,
   Company,
   CompanyUser,
   Contract,
@@ -52,6 +53,7 @@ export interface MockDb {
   paidTaxes: Record<string, string>;
   reports: TaxReport[];
   contracts: Contract[];
+  certificates: Certificate[];
   seq: number;
 }
 
@@ -256,6 +258,16 @@ export function seed(): MockDb {
       },
     ],
     contracts: [],
+    certificates: [
+      {
+        id: "cert-1",
+        employeeId: "daniyar",
+        kind: "employment",
+        purpose: "Для банка",
+        status: "ready",
+        requestedAt: "2026-09-02T08:00:00Z",
+      },
+    ],
     seq: 100,
   };
 }

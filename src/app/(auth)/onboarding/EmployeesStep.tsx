@@ -105,7 +105,7 @@ export function EmployeesStep({
           <a
             href={templateHref}
             download="jalaqy-sotrudniki.csv"
-            className="inline-flex min-h-11 items-center gap-2 px-2 font-semibold"
+            className="inline-flex min-h-11 items-center gap-2 px-2 font-semibold no-underline"
           >
             <IconDownload size={18} />
             {o.template}

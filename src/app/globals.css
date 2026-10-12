@@ -106,8 +106,13 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Ссылки в тексте подчёркнуты, как в дизайне (и не различаются только цветом — WCAG 1.4.1).
+     Ссылки-кнопки, пункты меню и строки таблиц снимают подчёркивание через no-underline. */
   a {
     color: var(--primary);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
   }
   a:hover {
     color: var(--ink);

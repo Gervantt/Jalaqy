@@ -32,7 +32,7 @@ function MonthLink({ period, dir }: { period: string; dir: -1 | 1 }) {
       href={`/app/timesheet?month=${target}`}
       aria-label={label}
       title={label}
-      className="inline-flex size-11 items-center justify-center rounded-button bg-surface text-ink is-hover:bg-success-bg"
+      className="inline-flex size-11 items-center justify-center rounded-button bg-surface text-ink no-underline is-hover:bg-success-bg"
     >
       {dir < 0 ? <IconChevronLeft /> : <IconChevronRight />}
     </Link>
@@ -163,7 +163,7 @@ async function TimesheetView({ searchParams }: { searchParams: Promise<{ month?:
                     <div className="flex items-baseline justify-between gap-2">
                       <Link
                         href={`/app/employees/${x.employeeId}`}
-                        className="font-semibold text-ink"
+                        className="font-semibold text-ink no-underline is-hover:underline"
                       >
                         {x.name}
                       </Link>

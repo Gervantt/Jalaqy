@@ -13,7 +13,7 @@ export async function decideAbsenceAction(
   await requireSession(["accountant", "owner"]);
   try {
     await api.timesheet.decideAbsence(id, decision);
-    revalidatePath("/app", "layout");
+    revalidatePath("/", "layout");
     return { ok: true };
   } catch (e) {
     return toActionError(e);
@@ -35,7 +35,7 @@ export async function createAbsenceAction(
       to: str(form, "to"),
       comment: str(form, "comment") || undefined,
     });
-    revalidatePath("/app", "layout");
+    revalidatePath("/", "layout");
     return { ok: true };
   } catch (e) {
     return toActionError(e);

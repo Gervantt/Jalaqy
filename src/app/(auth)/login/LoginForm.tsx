@@ -3,7 +3,7 @@
 import { submitWith } from "@/lib/form-submit";
 import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
-import { Banner, Button, Card, Input } from "@/components/ui";
+import { Banner, Button, Card, Input, RadioGroup } from "@/components/ui";
 import { interpolate, t } from "@/i18n";
 import { formatKzPhone } from "@/lib/validation/contact";
 import {
@@ -105,7 +105,6 @@ export function LoginForm({ next }: { next?: string }) {
         noValidate
       >
         <input type="hidden" name="contact" value={sent.contact} />
-        <input type="hidden" name="role" value="accountant" />
         {next && <input type="hidden" name="next" value={next} />}
         <Input
           // переход ко второму шагу: фокус сразу на поле кода
@@ -121,6 +120,16 @@ export function LoginForm({ next }: { next?: string }) {
           error={err?.fields?.code ?? (err && !err.fields ? err.error : undefined)}
         />
         <Banner tone="info">{l.demoHint}</Banner>
+        <RadioGroup
+          legend={l.demoRole}
+          name="role"
+          defaultValue="accountant"
+          orientation="horizontal"
+          options={(["accountant", "owner", "employee"] as const).map((r) => ({
+            value: r,
+            label: t.domain.roles[r],
+          }))}
+        />
         <Button type="submit" size="xl" fullWidth loading={verifying}>
           {l.signIn}
         </Button>

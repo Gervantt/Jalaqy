@@ -20,37 +20,11 @@ import type {
   TaxPayment,
   Timesheet,
 } from "../contracts";
+import { clone, findEmployee, latency, notFound, now, v, validation } from "./core";
 import { getDb, nextId } from "./db";
 import { buildPayrollRun, isEmployedIn, payslips, taxDueDate } from "./payroll";
-import { CURRENT_PERIOD, MOCK_TODAY } from "./seed";
-
-const v = t.domain.validation;
-
-/** Задержка ответа мока, мс (переменная окружения JALAQY_MOCK_LATENCY_MS). */
-function latency(): Promise<void> {
-  const ms = Number(process.env.JALAQY_MOCK_LATENCY_MS ?? 0);
-  return ms > 0 ? new Promise((r) => setTimeout(r, ms)) : Promise.resolve();
-}
-
-/** Возвращаем копии: вызывающий не должен менять «базу» напрямую. */
-const clone = <T>(value: T): T => structuredClone(value);
-
-const now = () => `${MOCK_TODAY}T12:00:00Z`;
-
-function validation(fields: Record<string, string | undefined>): never {
-  throw new ApiError(
-    { code: "validation", message: t.ui.formErrors, fields: fields as Record<string, string> },
-    422,
-  );
-}
-
-function notFound(): never {
-  throw new ApiError({ code: "not_found", message: v.notFound }, 404);
-}
-
-function findEmployee(id: string): Employee {
-  return getDb().employees.find((e) => e.id === id) ?? notFound();
-}
+import { self } from "./self";
+import { CURRENT_PERIOD } from "./seed";
 
 function makeEmployee(input: EmployeeInput): Employee {
   const errors = validateEmployeeInput(input);
@@ -232,6 +206,9 @@ export const mockApi: JalaqyApi = {
       await latency();
       return payslips(getDb(), findEmployee(id), CURRENT_PERIOD);
     },
+    payslip: self.payslip,
+    certificates: self.certificates,
+    requestCertificate: self.requestCertificate,
   },
 
   payroll: {
@@ -253,7 +230,8 @@ export const mockApi: JalaqyApi = {
     async approve(period) {
       await latency();
       const db = getDb();
-      if (db.payrollStatus[period] !== "awaiting_approval") {
+      const status = db.payrollStatus[period];
+      if (status !== "awaiting_approval" && status !== "calculated") {
         throw new ApiError({ code: "conflict", message: t.ui.conflict }, 409);
       }
       db.payrollStatus[period] = "approved";
@@ -325,6 +303,7 @@ export const mockApi: JalaqyApi = {
       };
       return timesheet;
     },
+    requestLeave: self.requestLeave,
     async absences(filter = {}) {
       await latency();
       return clone(

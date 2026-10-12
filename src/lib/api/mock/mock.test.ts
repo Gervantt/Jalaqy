@@ -31,9 +31,10 @@ describe("мок: зарплата за октябрь 2026", () => {
 
   it("что изменилось с сентября: новый курьер и повышение Данияра", async () => {
     const run = await api.payroll.get("2026-10");
+    // как в макете владельца: сначала новый сотрудник, потом повышение
     expect(run.changes).toEqual([
-      { kind: "salary", employeeId: "daniyar", shortName: "Данияр К.", from: 280_000, to: 320_000 },
       { kind: "hired", employeeId: "timur", shortName: "Тимур А.", position: "Курьер" },
+      { kind: "salary", employeeId: "daniyar", shortName: "Данияр К.", from: 280_000, to: 320_000 },
     ]);
   });
 
@@ -171,5 +172,45 @@ describe("мок: вход", () => {
     ).rejects.toBeInstanceOf(ApiError);
     const s = await api.auth.verifyCode({ contact: "+77011234514", code: "1234" });
     expect(s.role).toBe("accountant");
+  });
+});
+
+describe("мок: экраны сотрудника и владельца", () => {
+  it("листок виден только после подтверждения: до — сентябрь, после — октябрь как в дизайне", async () => {
+    const before = await api.employees.payslip("daniyar");
+    expect(before.period).toBe("2026-09");
+    expect(before.line.net).toBe(234_735);
+
+    await api.payroll.approve("2026-10"); // владелец может подтвердить сразу из «расчёт готов»
+    const after = await api.employees.payslip("daniyar");
+    expect(after).toMatchObject({ period: "2026-10", status: "approved", payDate: "2026-11-05" });
+    expect(after.line.net).toBe(266_415);
+    expect(after.line.employer.total).toBe(52_096);
+  });
+
+  it("неподтверждённый месяц по прямому запросу — not_found", async () => {
+    await expect(api.employees.payslip("daniyar", "2026-10")).rejects.toMatchObject({
+      status: 404,
+    });
+  });
+
+  it("заявка на отпуск: ждёт решения; больше остатка — ошибка поля", async () => {
+    const leave = await api.timesheet.requestLeave({
+      employeeId: "daniyar",
+      from: "2026-11-16",
+      to: "2026-11-20",
+    });
+    expect(leave.status).toBe("pending");
+    const err = await api.timesheet
+      .requestLeave({ employeeId: "timur", from: "2026-11-02", to: "2026-11-06" })
+      .catch((e: unknown) => e);
+    expect((err as ApiError).body.fields?.to).toMatch(/2 дн/);
+  });
+
+  it("справки: заказ появляется сверху со статусом «готовится»", async () => {
+    await api.employees.requestCertificate("daniyar", { kind: "income", purpose: "Для визы" });
+    const list = await api.employees.certificates("daniyar");
+    expect(list[0]).toMatchObject({ kind: "income", purpose: "Для визы", status: "requested" });
+    expect(list).toHaveLength(2);
   });
 });

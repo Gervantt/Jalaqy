@@ -18,7 +18,10 @@ const columns: TableColumn<Employee>[] = [
       <span className="flex items-center gap-3">
         <Avatar name={`${emp.firstName} ${emp.lastName}`} size={40} />
         <span className="flex min-w-0 flex-col">
-          <Link href={`/app/employees/${emp.id}`} className="font-semibold text-ink">
+          <Link
+            href={`/app/employees/${emp.id}`}
+            className="font-semibold text-ink no-underline is-hover:underline"
+          >
             {emp.firstName} {emp.lastName}
           </Link>
           <span className="text-caption text-muted">{emp.position}</span>

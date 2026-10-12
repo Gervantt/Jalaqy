@@ -201,6 +201,8 @@ export interface PayrollRun {
   totals: PayrollTotals;
   /** Срок уплаты налогов и взносов */
   taxDueDate: ISODate;
+  /** День выплаты зарплаты */
+  payDate: ISODate;
   /** Что изменилось относительно прошлого периода */
   changes: PayrollChange[];
   submittedAt?: ISODateTime;
@@ -216,6 +218,44 @@ export interface PayslipSummary {
   employerTotal: number;
   status: PayrollStatus;
   paidAt?: ISODateTime;
+}
+
+/** Расчётный листок сотрудника за месяц. */
+export interface Payslip {
+  period: Period;
+  status: PayrollStatus;
+  payDate: ISODate;
+  paidAt?: ISODateTime;
+  employeeId: string;
+  shortName: string;
+  position: string;
+  companyName: string;
+  line: PayrollLine;
+}
+
+/* ── Заявки сотрудника ──────────────────────────────── */
+
+export interface LeaveRequestInput {
+  employeeId: string;
+  from: ISODate;
+  to: ISODate;
+  comment?: string;
+}
+
+export type CertificateKind = "employment" | "income";
+
+export interface Certificate {
+  id: string;
+  employeeId: string;
+  kind: CertificateKind;
+  purpose: string;
+  status: "requested" | "ready";
+  requestedAt: ISODateTime;
+}
+
+export interface CertificateInput {
+  kind: CertificateKind;
+  purpose: string;
 }
 
 /* ── Налоги и отчёты ────────────────────────────────── */

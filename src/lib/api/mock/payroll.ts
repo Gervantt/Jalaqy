@@ -145,12 +145,18 @@ function changes(db: MockDb, period: Period): PayrollChange[] {
       });
     }
   }
-  return out;
+  const order: Record<PayrollChange["kind"], number> = { hired: 0, salary: 1, dismissed: 2 };
+  return out.sort((a, b) => order[a.kind] - order[b.kind]);
 }
 
 /** Срок уплаты налогов и взносов: 25-е число следующего месяца. */
 export function taxDueDate(period: Period): string {
   return `${shiftPeriod(period, 1)}-25`;
+}
+
+/** День выплаты: 5-е число следующего месяца. */
+export function payDate(period: Period): string {
+  return `${shiftPeriod(period, 1)}-05`;
 }
 
 export function buildPayrollRun(db: MockDb, period: Period): PayrollRun {
@@ -175,6 +181,7 @@ export function buildPayrollRun(db: MockDb, period: Period): PayrollRun {
     lines,
     totals,
     taxDueDate: taxDueDate(period),
+    payDate: payDate(period),
     changes: period > FIRST_PERIOD ? changes(db, period) : [],
     ...db.payrollTimestamps[period],
   };

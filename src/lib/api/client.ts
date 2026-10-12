@@ -13,6 +13,10 @@ import type {
   EmployeeUpdate,
   InviteUserInput,
   OnboardingInput,
+  Payslip,
+  Certificate,
+  CertificateInput,
+  LeaveRequestInput,
   PayrollRun,
   PayslipSummary,
   Period,
@@ -48,12 +52,16 @@ export interface JalaqyApi {
     create(input: EmployeeInput): Promise<Employee>;
     update(id: string, patch: EmployeeUpdate): Promise<Employee>;
     payslips(id: string): Promise<PayslipSummary[]>;
+    /** Листок за период; без периода — последний подтверждённый */
+    payslip(id: string, period?: Period): Promise<Payslip>;
+    certificates(id: string): Promise<Certificate[]>;
+    requestCertificate(id: string, input: CertificateInput): Promise<Certificate>;
   };
   payroll: {
     get(period: Period): Promise<PayrollRun>;
     /** Отправить владельцу на подтверждение */
     submit(period: Period): Promise<PayrollRun>;
-    /** Владелец подтверждает выплату */
+    /** Владелец подтверждает выплату (из «расчёт готов» или «ждёт подтверждения») */
     approve(period: Period): Promise<PayrollRun>;
     /** Выгрузка для 1С (CSV) */
     export1c(period: Period): Promise<{ filename: string; content: string }>;
@@ -63,6 +71,8 @@ export interface JalaqyApi {
     absences(filter?: { employeeId?: string; status?: AbsenceStatus }): Promise<Absence[]>;
     createAbsence(input: AbsenceInput): Promise<Absence>;
     decideAbsence(id: string, decision: Exclude<AbsenceStatus, "pending">): Promise<Absence>;
+    /** Сотрудник просит отпуск — заявка ждёт решения владельца */
+    requestLeave(input: LeaveRequestInput): Promise<Absence>;
   };
   taxes: {
     payments(period: Period): Promise<TaxPayment[]>;

@@ -52,8 +52,8 @@ test.describe("панель бухгалтера", () => {
     const table = page.getByRole("table", { name: /Расчёт зарплаты по сотрудникам/ });
     await expect(table.getByRole("rowheader")).toHaveCount(7); // 6 + «Итого»
     await expect(table.locator("tfoot")).toContainText(/1\s558\s890/);
-    await expect(page.locator("main")).toContainText(/615\s546\s₸/);
-    await expect(page.locator("main")).toContainText(/2\s174\s436\s₸/);
+    await expect(page.getByRole("main")).toContainText(/615\s546\s₸/);
+    await expect(page.getByRole("main")).toContainText(/2\s174\s436\s₸/);
     await expect(page.getByRole("listitem").filter({ hasText: "Расчёт" }).first()).toHaveAttribute(
       "aria-current",
       "step",
@@ -135,7 +135,7 @@ test.describe("панель бухгалтера", () => {
 
   test("налоги: суммы и отметка об оплате", async ({ page }) => {
     await page.goto("/app/taxes");
-    await expect(page.locator("main")).toContainText(/615\s546\s₸/);
+    await expect(page.getByRole("main")).toContainText(/615\s546\s₸/);
     await page.getByRole("button", { name: "Отметить оплаченным: ИПН" }).click();
     await expect(
       page.getByRole("status").filter({ hasText: "Платёж отмечен оплаченным" }),

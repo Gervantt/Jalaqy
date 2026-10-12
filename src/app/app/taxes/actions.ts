@@ -9,7 +9,7 @@ export async function markTaxPaidAction(id: string): Promise<ActionResult> {
   await requireSession(["accountant"]);
   try {
     await api.taxes.markPaid(id);
-    revalidatePath("/app", "layout");
+    revalidatePath("/", "layout");
     return { ok: true };
   } catch (e) {
     return toActionError(e);

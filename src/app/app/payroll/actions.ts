@@ -12,8 +12,8 @@ export async function submitPayrollAction(period: string): Promise<ActionResult>
   try {
     await api.payroll.submit(period);
     // refresh() в production-сборке с cacheComponents не перерисовывал экран;
-    // revalidatePath пересчитывает все разделы панели в ответе на action
-    revalidatePath("/app", "layout");
+    // revalidatePath пересчитывает все экраны (панель, владелец, сотрудник) в ответе на action
+    revalidatePath("/", "layout");
     return { ok: true };
   } catch (e) {
     return toActionError(e);

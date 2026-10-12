@@ -87,7 +87,10 @@ const historyColumns: TableColumn<PayslipSummary>[] = [
     key: "period",
     header: c.period,
     render: (p) => (
-      <Link href={`/app/payroll?period=${p.period}`} className="font-semibold text-ink">
+      <Link
+        href={`/app/payroll?period=${p.period}`}
+        className="font-semibold text-ink no-underline is-hover:underline"
+      >
         {formatDate(`${p.period}-01`, "monthYear")}
       </Link>
     ),

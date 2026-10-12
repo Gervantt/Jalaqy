@@ -5,7 +5,7 @@ import { api } from "@/lib/api";
 import type { Role } from "@/lib/api/contracts";
 import { toActionError, str, type ActionResult } from "@/lib/actions";
 import { clearSession, setSession } from "@/lib/session";
-import { homeFor, safeNext } from "@/lib/session-codec";
+import { canAccess, homeFor, safeNext } from "@/lib/session-codec";
 
 export type RequestCodeState = ActionResult<{
   contact: string;
@@ -51,7 +51,7 @@ export async function verifyCodeAction(_prev: VerifyState, form: FormData): Prom
     });
     await setSession(session);
     const next = safeNext(str(form, "next"));
-    destination = next && session.role === "accountant" ? next : homeFor(session.role);
+    destination = next && canAccess(session.role, next) ? next : homeFor(session.role);
   } catch (e) {
     return toActionError(e);
   }

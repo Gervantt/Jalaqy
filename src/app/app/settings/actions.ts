@@ -18,7 +18,7 @@ export async function updateCompanyAction(_prev: FormState, form: FormData): Pro
       regime: str(form, "regime") as TaxRegime,
       address: str(form, "address"),
     });
-    revalidatePath("/app", "layout");
+    revalidatePath("/", "layout");
     return { ok: true };
   } catch (e) {
     return toActionError(e);
@@ -33,7 +33,7 @@ export async function inviteUserAction(_prev: FormState, form: FormData): Promis
       contact: str(form, "contact"),
       role: str(form, "role") as CompanyUser["role"],
     });
-    revalidatePath("/app", "layout");
+    revalidatePath("/", "layout");
     return { ok: true };
   } catch (e) {
     return toActionError(e);
@@ -47,7 +47,7 @@ export async function setUserRoleAction(
   await requireSession(["accountant", "owner"]);
   try {
     await api.company.setUserRole(userId, role);
-    revalidatePath("/app", "layout");
+    revalidatePath("/", "layout");
     return { ok: true };
   } catch (e) {
     return toActionError(e);
@@ -59,6 +59,6 @@ export async function resetDemoAction(): Promise<ActionResult> {
   await requireSession(["accountant", "owner"]);
   if (process.env.JALAQY_API_URL) return { ok: false, error: "mock only" };
   resetDb();
-  revalidatePath("/app", "layout");
+  revalidatePath("/", "layout");
   return { ok: true };
 }

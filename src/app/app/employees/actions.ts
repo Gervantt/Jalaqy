@@ -23,7 +23,7 @@ export async function createEmployeeAction(
       phone: str(form, "phone") || undefined,
       hasDeduction: bool(form, "hasDeduction"),
     });
-    revalidatePath("/app", "layout");
+    revalidatePath("/", "layout");
     return { ok: true, data: { id: employee.id } };
   } catch (e) {
     return toActionError(e);
@@ -43,7 +43,7 @@ export async function updateEmployeeAction(
       phone: str(form, "phone"),
       hasDeduction: bool(form, "hasDeduction"),
     });
-    revalidatePath("/app", "layout");
+    revalidatePath("/", "layout");
     return { ok: true, data: { id } };
   } catch (e) {
     return toActionError(e);

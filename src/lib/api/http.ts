@@ -51,6 +51,9 @@ export function createHttpApi(
       create: (input) => call("POST", "/employees", input),
       update: (id, patch) => call("PATCH", `/employees/${id}`, patch),
       payslips: (id) => call("GET", `/employees/${id}/payslips`),
+      payslip: (id, period) => call("GET", `/employees/${id}/payslips/${period ?? "latest"}`),
+      certificates: (id) => call("GET", `/employees/${id}/certificates`),
+      requestCertificate: (id, input) => call("POST", `/employees/${id}/certificates`, input),
     },
     payroll: {
       get: (period) => call("GET", `/payroll/${period}`),
@@ -64,6 +67,7 @@ export function createHttpApi(
         call("GET", `/absences${q({ employeeId: f.employeeId, status: f.status })}`),
       createAbsence: (input) => call("POST", "/absences", input),
       decideAbsence: (id, decision) => call("POST", `/absences/${id}/decision`, { decision }),
+      requestLeave: (input) => call("POST", "/absences/requests", input),
     },
     taxes: {
       payments: (period) => call("GET", `/taxes/${period}/payments`),

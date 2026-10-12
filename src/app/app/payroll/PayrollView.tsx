@@ -118,7 +118,10 @@ export async function PayrollView({
       header: p.table.employee,
       render: (l) => (
         <>
-          <Link href={`/app/employees/${l.employeeId}`} className="font-semibold text-ink">
+          <Link
+            href={`/app/employees/${l.employeeId}`}
+            className="font-semibold text-ink no-underline is-hover:underline"
+          >
             {l.shortName}
           </Link>
           <div className="text-caption text-muted">
