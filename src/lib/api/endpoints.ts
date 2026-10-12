@@ -1,0 +1,88 @@
+/**
+ * Контракт HTTP API для бэкенда (FastAPI): «МЕТОД /путь» → тело запроса и ответ.
+ * {id}, {period} — параметры пути. Суммы — целые тенге, даты — ISO (см. ./contracts).
+ * Ошибки: статус 4xx/5xx и тело ApiErrorBody ({ code, message, fields? }).
+ * http.ts типизирован этой картой: расхождение клиента и контракта не скомпилируется.
+ */
+import type {
+  Absence,
+  AbsenceInput,
+  AbsenceStatus,
+  Certificate,
+  CertificateInput,
+  Company,
+  CompanyUpdate,
+  CompanyUser,
+  Contract,
+  ContractTemplate,
+  Employee,
+  EmployeeInput,
+  EmployeeUpdate,
+  InviteUserInput,
+  LeaveRequestInput,
+  OnboardingInput,
+  PayrollRun,
+  Payslip,
+  PayslipSummary,
+  RequestCodeInput,
+  RequestCodeResult,
+  Session,
+  TaxPayment,
+  TaxReport,
+  Timesheet,
+  VerifyCodeInput,
+} from "./contracts";
+
+type E<Body, Response> = { body: Body; response: Response };
+type File = { filename: string; content: string };
+
+export interface Endpoints {
+  // Вход: код по SMS или почте; verify ставит httpOnly-cookie сессии
+  "POST /auth/code": E<RequestCodeInput, RequestCodeResult>;
+  "POST /auth/verify": E<VerifyCodeInput, Session>;
+
+  // Компания и пользователи
+  "GET /company": E<void, Company>;
+  "PATCH /company": E<CompanyUpdate, Company>;
+  "POST /company/onboarding": E<OnboardingInput, Company>;
+  "GET /company/users": E<void, CompanyUser[]>;
+  "POST /company/users": E<InviteUserInput, CompanyUser>;
+  "PATCH /company/users/{id}": E<{ role: CompanyUser["role"] }, CompanyUser>;
+
+  // Сотрудники (сотрудник с ролью employee видит только свой {id})
+  "GET /employees": E<void, Employee[]>;
+  "GET /employees/{id}": E<void, Employee>;
+  "POST /employees": E<EmployeeInput, Employee>;
+  "PATCH /employees/{id}": E<EmployeeUpdate, Employee>;
+  "GET /employees/{id}/payslips": E<void, PayslipSummary[]>;
+  /** {period} = ГГГГ-ММ или latest — последний подтверждённый */
+  "GET /employees/{id}/payslips/{period}": E<void, Payslip>;
+  "GET /employees/{id}/certificates": E<void, Certificate[]>;
+  "POST /employees/{id}/certificates": E<CertificateInput, Certificate>;
+
+  // Зарплата
+  "GET /payroll/{period}": E<void, PayrollRun>;
+  "POST /payroll/{period}/submit": E<void, PayrollRun>;
+  "POST /payroll/{period}/approve": E<void, PayrollRun>;
+  "GET /payroll/{period}/export/1c": E<void, File>;
+
+  // Табель и отпуска
+  "GET /timesheet/{period}": E<void, Timesheet>;
+  /** query: employeeId?, status? */
+  "GET /absences": E<void, Absence[]>;
+  "POST /absences": E<AbsenceInput, Absence>;
+  "POST /absences/{id}/decision": E<{ decision: Exclude<AbsenceStatus, "pending"> }, Absence>;
+  "POST /absences/requests": E<LeaveRequestInput, Absence>;
+
+  // Налоги и отчёты
+  "GET /taxes/{period}/payments": E<void, TaxPayment[]>;
+  "POST /taxes/payments/{id}/paid": E<void, TaxPayment>;
+  "GET /taxes/payments/{id}/order": E<void, File>;
+  "GET /taxes/reports": E<void, TaxReport[]>;
+
+  // Договоры
+  "GET /contracts": E<void, Contract[]>;
+  "GET /contracts/templates": E<void, ContractTemplate[]>;
+}
+
+export type EndpointKey = keyof Endpoints;

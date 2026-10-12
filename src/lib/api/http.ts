@@ -1,5 +1,6 @@
 import { ApiError, type JalaqyApi } from "./client";
 import type { ApiErrorBody } from "./contracts";
+import type { EndpointKey, Endpoints } from "./endpoints";
 
 /**
  * HTTP-клиент к бэкенду (FastAPI). Включается переменной JALAQY_API_URL.
@@ -10,7 +11,13 @@ export function createHttpApi(
   baseUrl: string,
   getToken?: () => Promise<string | undefined>,
 ): JalaqyApi {
-  async function call<T>(method: string, path: string, body?: unknown): Promise<T> {
+  /** key — строка контракта (см. ./endpoints), path — путь с подставленными параметрами. */
+  async function call<K extends EndpointKey>(
+    key: K,
+    path: string,
+    body?: Endpoints[K]["body"],
+  ): Promise<Endpoints[K]["response"]> {
+    const method = key.slice(0, key.indexOf(" "));
     const token = await getToken?.();
     const res = await fetch(new URL(path, baseUrl), {
       method,
@@ -25,7 +32,7 @@ export function createHttpApi(
       const err = (await res.json().catch(() => null)) as ApiErrorBody | null;
       throw new ApiError(err ?? { code: "server", message: res.statusText }, res.status);
     }
-    return (res.status === 204 ? undefined : await res.json()) as T;
+    return (res.status === 204 ? undefined : await res.json()) as Endpoints[K]["response"];
   }
   const q = (p: Record<string, string | undefined>) => {
     const s = new URLSearchParams(Object.entries(p).filter((e): e is [string, string] => !!e[1]));
@@ -34,50 +41,60 @@ export function createHttpApi(
 
   return {
     auth: {
-      requestCode: (input) => call("POST", "/auth/code", input),
-      verifyCode: (input) => call("POST", "/auth/verify", input),
+      requestCode: (input) => call("POST /auth/code", "/auth/code", input),
+      verifyCode: (input) => call("POST /auth/verify", "/auth/verify", input),
     },
     company: {
-      get: () => call("GET", "/company"),
-      update: (patch) => call("PATCH", "/company", patch),
-      onboard: (input) => call("POST", "/company/onboarding", input),
-      users: () => call("GET", "/company/users"),
-      inviteUser: (input) => call("POST", "/company/users", input),
-      setUserRole: (id, role) => call("PATCH", `/company/users/${id}`, { role }),
+      get: () => call("GET /company", "/company"),
+      update: (patch) => call("PATCH /company", "/company", patch),
+      onboard: (input) => call("POST /company/onboarding", "/company/onboarding", input),
+      users: () => call("GET /company/users", "/company/users"),
+      inviteUser: (input) => call("POST /company/users", "/company/users", input),
+      setUserRole: (id, role) =>
+        call("PATCH /company/users/{id}", `/company/users/${id}`, { role }),
     },
     employees: {
-      list: () => call("GET", "/employees"),
-      get: (id) => call("GET", `/employees/${id}`),
-      create: (input) => call("POST", "/employees", input),
-      update: (id, patch) => call("PATCH", `/employees/${id}`, patch),
-      payslips: (id) => call("GET", `/employees/${id}/payslips`),
-      payslip: (id, period) => call("GET", `/employees/${id}/payslips/${period ?? "latest"}`),
-      certificates: (id) => call("GET", `/employees/${id}/certificates`),
-      requestCertificate: (id, input) => call("POST", `/employees/${id}/certificates`, input),
+      list: () => call("GET /employees", "/employees"),
+      get: (id) => call("GET /employees/{id}", `/employees/${id}`),
+      create: (input) => call("POST /employees", "/employees", input),
+      update: (id, patch) => call("PATCH /employees/{id}", `/employees/${id}`, patch),
+      payslips: (id) => call("GET /employees/{id}/payslips", `/employees/${id}/payslips`),
+      payslip: (id, period) =>
+        call(
+          "GET /employees/{id}/payslips/{period}",
+          `/employees/${id}/payslips/${period ?? "latest"}`,
+        ),
+      certificates: (id) =>
+        call("GET /employees/{id}/certificates", `/employees/${id}/certificates`),
+      requestCertificate: (id, input) =>
+        call("POST /employees/{id}/certificates", `/employees/${id}/certificates`, input),
     },
     payroll: {
-      get: (period) => call("GET", `/payroll/${period}`),
-      submit: (period) => call("POST", `/payroll/${period}/submit`),
-      approve: (period) => call("POST", `/payroll/${period}/approve`),
-      export1c: (period) => call("GET", `/payroll/${period}/export/1c`),
+      get: (period) => call("GET /payroll/{period}", `/payroll/${period}`),
+      submit: (period) => call("POST /payroll/{period}/submit", `/payroll/${period}/submit`),
+      approve: (period) => call("POST /payroll/{period}/approve", `/payroll/${period}/approve`),
+      export1c: (period) => call("GET /payroll/{period}/export/1c", `/payroll/${period}/export/1c`),
     },
     timesheet: {
-      get: (period) => call("GET", `/timesheet/${period}`),
+      get: (period) => call("GET /timesheet/{period}", `/timesheet/${period}`),
       absences: (f = {}) =>
-        call("GET", `/absences${q({ employeeId: f.employeeId, status: f.status })}`),
-      createAbsence: (input) => call("POST", "/absences", input),
-      decideAbsence: (id, decision) => call("POST", `/absences/${id}/decision`, { decision }),
-      requestLeave: (input) => call("POST", "/absences/requests", input),
+        call("GET /absences", `/absences${q({ employeeId: f.employeeId, status: f.status })}`),
+      createAbsence: (input) => call("POST /absences", "/absences", input),
+      decideAbsence: (id, decision) =>
+        call("POST /absences/{id}/decision", `/absences/${id}/decision`, { decision }),
+      requestLeave: (input) => call("POST /absences/requests", "/absences/requests", input),
     },
     taxes: {
-      payments: (period) => call("GET", `/taxes/${period}/payments`),
-      markPaid: (id) => call("POST", `/taxes/payments/${encodeURIComponent(id)}/paid`),
-      paymentOrder: (id) => call("GET", `/taxes/payments/${encodeURIComponent(id)}/order`),
-      reports: () => call("GET", "/taxes/reports"),
+      payments: (period) => call("GET /taxes/{period}/payments", `/taxes/${period}/payments`),
+      markPaid: (id) =>
+        call("POST /taxes/payments/{id}/paid", `/taxes/payments/${encodeURIComponent(id)}/paid`),
+      paymentOrder: (id) =>
+        call("GET /taxes/payments/{id}/order", `/taxes/payments/${encodeURIComponent(id)}/order`),
+      reports: () => call("GET /taxes/reports", "/taxes/reports"),
     },
     contracts: {
-      list: () => call("GET", "/contracts"),
-      templates: () => call("GET", "/contracts/templates"),
+      list: () => call("GET /contracts", "/contracts"),
+      templates: () => call("GET /contracts/templates", "/contracts/templates"),
     },
   };
 }

@@ -31,6 +31,13 @@ describe("Table", () => {
             render: (r) => r.salary,
             footer: "870 000",
           },
+          {
+            key: "net",
+            header: "К выплате",
+            align: "right",
+            emphasis: true,
+            render: (r) => `н${r.id}`,
+          },
         ]}
       />,
     );
@@ -38,6 +45,11 @@ describe("Table", () => {
     expect(within(table).getByRole("rowheader", { name: "Мадина Ж." })).toBeTruthy();
     const salaryCell = within(table).getByText("550 000");
     expect(salaryCell.className).toContain("text-right");
+    expect(salaryCell.className).toContain("font-normal");
+    // выделенная колонка (как «К выплате» в макете) — жирная, без конфликтующего font-normal
+    const net = within(table).getByText("н1");
+    expect(net.className).toContain("font-bold");
+    expect(net.className).not.toContain("font-normal");
     expect(table.querySelector("tfoot")?.textContent).toContain("870 000");
     // область прокрутки доступна с клавиатуры
     const region = screen.getByRole("region");

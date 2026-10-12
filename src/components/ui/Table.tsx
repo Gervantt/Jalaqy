@@ -94,9 +94,10 @@ export function Table<Row>({
                       key={c.key}
                       scope={i === 0 ? "row" : undefined}
                       className={cn(
-                        "px-4 py-3.5 font-normal",
+                        "px-4 py-3.5",
                         alignClass(c),
-                        c.emphasis && "font-bold",
+                        // одно значение font-weight: два класса начертания спорят по порядку в CSS
+                        c.emphasis ? "font-bold" : "font-normal",
                         c.className,
                       )}
                     >
