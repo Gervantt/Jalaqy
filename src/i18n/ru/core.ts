@@ -100,9 +100,4 @@ export const core = {
     /** дательный: «к выплате 6 сотрудникам» */
     employeesDative: ["сотруднику", "сотрудникам", "сотрудникам"],
   },
-  home: {
-    title: "Jalaqy",
-    soon: "Лендинг появится в фазе 6.",
-    styleguideLink: "Открыть стайлгайд",
-  },
 } as const;

@@ -25,7 +25,7 @@ export function describedBy(ids: FieldIds, hint?: ReactNode, error?: ReactNode) 
 /** Общие классы текстовых полей. Рамка --field-border даёт контраст ≥3:1. */
 export function controlClasses(className?: string) {
   return cn(
-    "h-12 w-full min-w-0 rounded-button border border-field-border bg-surface px-4 text-base text-ink",
+    "h-12 w-full min-w-0 rounded-field border border-field-border bg-surface px-4 text-base text-ink",
     "transition-colors placeholder:text-muted is-hover:border-ink",
     "focus-visible:border-primary",
     "aria-invalid:border-2 aria-invalid:border-danger",

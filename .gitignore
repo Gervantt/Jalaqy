@@ -49,3 +49,4 @@ next-env.d.ts
 
 # mock data written at runtime (waitlist etc.)
 /data/
+/.e2e-data/

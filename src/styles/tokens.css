@@ -59,6 +59,7 @@
   /* Форма */
   --btn-radius: 12px;
   --btn-radius-lg: 14px;
+  --field-radius: 12px;
 }
 
 [data-theme="landing"] {
@@ -67,6 +68,7 @@
   --divider: var(--sand-line);
   --btn-radius: 999px;
   --btn-radius-lg: 999px;
+  --field-radius: 14px; /* поля формы лендинга — как в дизайне */
 }
 
 /* Любой тёмный блок: фокус-кольцо золотое, чтобы было видно на хвое */

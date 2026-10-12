@@ -23,7 +23,7 @@ export default defineConfig({
   ],
   webServer: {
     command: `npm run build && npm run start -- -p ${PORT}`,
-    env: { JALAQY_E2E: "1" },
+    env: { JALAQY_E2E: "1", JALAQY_DATA_DIR: ".e2e-data" },
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,

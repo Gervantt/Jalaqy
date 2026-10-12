@@ -104,14 +104,17 @@ export function MoneyInput({
           onChange={handleChange}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy(ids, hint, error)}
-          className={controlClasses(
-            cn(
-              "pr-10 tabular-nums",
-              size === "lg" &&
-                "h-[66px] rounded-card font-display text-amount font-extrabold tracking-display",
-              className,
-            ),
-          )}
+          className={
+            size === "lg"
+              ? cn(
+                  // крупное поле калькулятора: свои классы, чтобы не спорить с обычным полем
+                  "h-[66px] w-full min-w-0 rounded-card border-2 border-ink bg-cream px-[18px] pr-12 text-ink",
+                  "font-display text-amount font-extrabold tracking-display tabular-nums",
+                  "focus-visible:border-primary disabled:opacity-50 aria-invalid:border-danger",
+                  className,
+                )
+              : controlClasses(cn("pr-10 tabular-nums", className))
+          }
           {...rest}
         />
         <span
