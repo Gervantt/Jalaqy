@@ -1,0 +1,74 @@
+/*
+ * Дизайн-токены Jalaqy. Источник правды — design/design/*.dc.html.
+ * Тема приложения — :root. Тема лендинга — [data-theme="landing"]:
+ * переопределяет фон, линии и радиус кнопок, бренд-цвета общие.
+ */
+
+:root {
+  /* Бренд */
+  --ink: #0f2a24; /* Хвоя — основной текст, тёмные фоны, сайдбар */
+  --primary: #1f6b52; /* кнопки и ссылки, под белым текстом */
+  --primary-hover: #185a45; /* не в дизайне: hover основной кнопки */
+  --accent: #f2c14e; /* Золото — акценты, сроки, суммы на тёмном */
+
+  /* Поверхности */
+  --paper: #f3f5f0; /* Бумага — фон приложения */
+  --surface: #ffffff; /* карточки */
+
+  /* Текст */
+  --muted: #55625c; /* вторичный текст */
+  --text-2: #33413b; /* абзацы второго уровня */
+
+  /* Линии */
+  --border: #d5dcd6;
+  --border-strong: #cbd5ce; /* рамка вторичной кнопки, 1.5px */
+  --divider: #e7ece8; /* строки таблиц, таббар */
+
+  /* Статусы */
+  --success-bg: #e2ece6;
+  --success-text: #174f3d;
+  --warning-bg: #fbefc9;
+  --warning-text: #4a3600;
+  --warning-icon: #6b4e00;
+  --danger: #b42318; /* не в дизайне: ошибки и опасные действия */
+  --danger-hover: #912018;
+  --danger-bg: #fbe5e2;
+
+  /* На тёмном (ink) */
+  --on-ink: #f3f5f0;
+  --on-ink-text: #d3e0da;
+  --on-ink-soft: #c9d6d0;
+  --on-ink-muted: #a9bdb4;
+  --ink-hover: #1d4038; /* активный пункт сайдбара */
+  --ink-divider: #2b4a42;
+
+  /* Палитра лендинга (доступна везде, используется в теме landing) */
+  --cream: #fbf8f1;
+  --mint: #dcebe2;
+  --mint-line: #c2d9cb;
+  --sand: #efeadd;
+  --sand-line: #ece8de;
+  --sand-border: #d9d3c3;
+  --sand-soft: #e4e0d4;
+  --sand-dashed: #c9c2ae;
+
+  /* Фокус */
+  --focus: var(--primary);
+
+  /* Форма */
+  --btn-radius: 12px;
+  --btn-radius-lg: 14px;
+}
+
+[data-theme="landing"] {
+  --paper: var(--cream);
+  --border: var(--sand-border);
+  --divider: var(--sand-line);
+  --btn-radius: 999px;
+  --btn-radius-lg: 999px;
+}
+
+/* Любой тёмный блок: фокус-кольцо золотое, чтобы было видно на хвое */
+.on-ink {
+  --focus: var(--accent);
+}

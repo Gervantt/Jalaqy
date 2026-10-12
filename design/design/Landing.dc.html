@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Jalaqy — зарплата и кадры для малого бизнеса</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@500;700;800&amp;family=Golos+Text:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF8F1}
+a{color:#1F6B52}a:hover{color:#0F2A24}
+button,input{font-family:inherit}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#1F6B52}
+summary{cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+details[open] .jq-sign{transform:rotate(45deg)}
+@keyframes jqFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes jqMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes jqIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.jq-float{animation:jqFloat 6s ease-in-out infinite}
+.jq-float-2{animation:jqFloat 7s ease-in-out -2s infinite}
+.jq-float-3{animation:jqFloat 6.5s ease-in-out -4s infinite}
+.jq-marquee{animation:jqMarquee 28s linear infinite}
+.jq-in{animation:jqIn .45s ease-out both}
+.jq-lift{transition:transform .2s ease, box-shadow .2s ease}
+.jq-lift:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(15,42,36,.12)}
+@media (max-width: 820px){.jq-hide-sm{display:none}}
+@media (prefers-reduced-motion: reduce){.jq-float,.jq-float-2,.jq-float-3,.jq-marquee,.jq-in{animation:none}}
+</style>
+</helmet>
+<div style="background: #FBF8F1; color: #0F2A24; font-family: 'Golos Text', sans-serif; font-size: 17px; line-height: 1.55; overflow-x: hidden">
+
+  <header style="max-width: 1240px; margin: 0 auto; padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+    <a href="#top" aria-label="Jalaqy, на главную" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #0F2A24">
+      <svg width="32" height="32" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M18 8 H38 L48 18 V54 a2 2 0 0 1 -2 2 H18 a2 2 0 0 1 -2 -2 V10 a2 2 0 0 1 2 -2 z" fill="#0F2A24"></path>
+        <path d="M38 8 V18 H48" stroke="#FBF8F1" stroke-width="2.5" stroke-linejoin="round"></path>
+        <path d="M23 35 L29.5 41.5 L41 28.5" stroke="#F2C14E" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 25px; letter-spacing: -0.04em">jalaqy</span>
+    </a>
+    <nav aria-label="Разделы" style="display: flex; flex-wrap: wrap; align-items: center; gap: 26px; font-size: 15px; font-weight: 500">
+      <a href="#features" style="color: #0F2A24; text-decoration: none">Возможности</a>
+      <a href="#how" style="color: #0F2A24; text-decoration: none">Как это работает</a>
+      <a href="#price" style="color: #0F2A24; text-decoration: none">Цена</a>
+      <a href="#faq" style="color: #0F2A24; text-decoration: none">Вопросы</a>
+      <a href="#waitlist" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; background: #0F2A24; color: #FBF8F1; text-decoration: none; font-weight: 600">Попасть в пилот</a>
+    </nav>
+  </header>
+
+  <section id="top" style="position: relative; padding: 56px 24px 0">
+    <svg aria-hidden="true" viewBox="0 0 1440 520" preserveAspectRatio="none" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 520px; display: block">
+      <path d="M0 210 C 240 120, 420 300, 720 210 S 1200 90, 1440 190 L1440 520 L0 520 Z" fill="#DCEBE2"></path>
+      <path d="M0 330 C 300 250, 520 400, 820 320 S 1260 240, 1440 300 L1440 520 L0 520 Z" fill="#1F6B52"></path>
+      <path d="M0 430 C 280 380, 560 470, 880 420 S 1280 380, 1440 410 L1440 520 L0 520 Z" fill="#0F2A24"></path>
+    </svg>
+    <div style="position: relative; max-width: 940px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px">
+      <p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E4E0D4; font-size: 14px; font-weight: 600; color: #1F6B52">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+        Уже по ставкам Налогового кодекса 2026
+      </p>
+      <h1 style="margin: 0; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(44px, 6.6vw, 92px); line-height: 0.98; letter-spacing: -0.045em">Зарплата без&#160;бухгалтера.</h1>
+      <p style="margin: 0; max-width: 640px; font-size: clamp(17px, 1.6vw, 21px); line-height: 1.5; color: #33413B">Добавьте сотрудников и отметьте отпуска — Jalaqy сам посчитает зарплату, удержания и налоги и подготовит платёжки. Вам остаётся нажать «Подтвердить».</p>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px">
+        <a href="#waitlist" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 30px; border-radius: 999px; background: #1F6B52; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 17px">Попасть в пилот бесплатно</a>
+        <a href="#calc" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 28px; border-radius: 999px; background: #FFFFFF; border: 1.5px solid #0F2A24; color: #0F2A24; text-decoration: none; font-weight: 700; font-size: 17px">Посчитать свою зарплату</a>
+      </div>
+    </div>
+
+    <div style="position: relative; max-width: 1100px; margin: 64px auto 0; padding-bottom: 72px">
+      <img src="/_blob/b3e2b1619d7962b3758d4b4bc5c8eefe" alt="Панель Jalaqy: расчёт зарплаты за октябрь по шести сотрудникам" style="position: relative; width: 100%; height: auto; display: block; border-radius: 18px; border: 1px solid #D5DCD6; box-shadow: 0 30px 80px rgba(15,42,36,.25)">
+
+      <div class="jq-float jq-hide-sm" style="position: absolute; left: -36px; top: 18%; width: 250px; background: #FFFFFF; border-radius: 18px; padding: 16px 18px; box-shadow: 0 16px 40px rgba(15,42,36,.18); display: flex; gap: 12px; align-items: center">
+        <span style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px; background: #DCEBE2; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F6B52" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
+        <span style="display: flex; flex-direction: column"><b style="font-size: 15px">Выплата подтверждена</b><span style="font-size: 13px; color: #55625C">1 558 890 ₸ · 6 сотрудников</span></span>
+      </div>
+
+      <div class="jq-float-2 jq-hide-sm" style="position: absolute; right: -40px; top: 8%; width: 236px; background: #0F2A24; color: #FBF8F1; border-radius: 18px; padding: 16px 18px; box-shadow: 0 16px 40px rgba(15,42,36,.25); display: flex; flex-direction: column; gap: 4px">
+        <span style="font-size: 13px; color: #A9BDB4">Компания доплатила за Данияра</span>
+        <b style="font-family: 'Onest', sans-serif; font-size: 24px; color: #F2C14E">52 096 ₸</b>
+        <span style="font-size: 13px; color: #A9BDB4">видно в его расчётном листке</span>
+      </div>
+
+      <div class="jq-float-3 jq-hide-sm" style="position: absolute; right: 6%; bottom: 20px; width: 260px; background: #FFFFFF; border-radius: 18px; padding: 16px 18px; box-shadow: 0 16px 40px rgba(15,42,36,.18); display: flex; flex-direction: column; gap: 10px">
+        <span style="display: flex; justify-content: space-between; align-items: center"><b style="font-size: 15px">Асель просит отпуск</b><span style="font-size: 12px; font-weight: 700; color: #6B4E00; background: #FBEFC9; border-radius: 999px; padding: 3px 9px">новое</span></span>
+        <span style="font-size: 13px; color: #55625C">10–14 ноября · 5 дней</span>
+        <span style="display: flex; gap: 8px"><span style="flex: 1; text-align: center; padding: 8px 0; border-radius: 10px; background: #1F6B52; color: #FFFFFF; font-size: 13px; font-weight: 700">Одобрить</span><span style="flex: 1; text-align: center; padding: 8px 0; border-radius: 10px; border: 1px solid #D5DCD6; font-size: 13px; font-weight: 600">Позже</span></span>
+      </div>
+
+      <div class="jq-float-2 jq-hide-sm" style="position: absolute; left: 4%; bottom: 8px; width: 230px; background: #F2C14E; color: #0F2A24; border-radius: 18px; padding: 14px 18px; box-shadow: 0 16px 40px rgba(15,42,36,.2); display: flex; flex-direction: column; gap: 2px">
+        <b style="font-size: 15px">Налоги за октябрь</b>
+        <span style="font-size: 13px">615 546 ₸ · до 25 ноября</span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="Коротко о сервисе" style="background: #0F2A24; color: #FBF8F1; padding: 22px 0; overflow: hidden">
+    <div class="jq-marquee" style="display: flex; width: max-content; gap: 56px; font-family: 'Onest', sans-serif; font-weight: 700; font-size: 19px; white-space: nowrap">
+      <span>Ставки 2026 года</span><span style="color: #F2C14E">✦</span><span>Данные хранятся в Казахстане</span><span style="color: #F2C14E">✦</span><span>Выгрузка в 1С и Excel</span><span style="color: #F2C14E">✦</span><span>Работает в браузере телефона</span><span style="color: #F2C14E">✦</span><span>Расчётные листки каждому</span><span style="color: #F2C14E">✦</span>
+      <span>Ставки 2026 года</span><span style="color: #F2C14E">✦</span><span>Данные хранятся в Казахстане</span><span style="color: #F2C14E">✦</span><span>Выгрузка в 1С и Excel</span><span style="color: #F2C14E">✦</span><span>Работает в браузере телефона</span><span style="color: #F2C14E">✦</span><span>Расчётные листки каждому</span><span style="color: #F2C14E">✦</span>
+    </div>
+  </section>
+
+  <section id="features" style="max-width: 1240px; margin: 0 auto; padding: 112px 24px 96px; display: flex; flex-direction: column; gap: 40px">
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px">
+      <h2 style="margin: 0; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(34px, 4.4vw, 60px); line-height: 1.02; letter-spacing: -0.035em; max-width: 820px">Всё, что связано с зарплатой, — в одном месте</h2>
+      <p style="margin: 0; max-width: 560px; color: #55625C">Выберите, что вам важнее всего.</p>
+    </div>
+    <div role="tablist" aria-label="Возможности" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+        <sc-if value="{{t.active}}" hint-placeholder-val="{{false}}">
+          <button type="button" role="tab" aria-selected="true" onClick="{{t.pick}}" style="min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1.5px solid #0F2A24; background: #0F2A24; color: #FBF8F1; font-size: 16px; font-weight: 700; cursor: pointer">{{t.label}}</button>
+        </sc-if>
+        <sc-if value="{{t.idle}}" hint-placeholder-val="{{true}}">
+          <button type="button" role="tab" aria-selected="false" onClick="{{t.pick}}" style="min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1.5px solid #D9D3C3; background: #FFFFFF; color: #0F2A24; font-size: 16px; font-weight: 600; cursor: pointer">{{t.label}}</button>
+        </sc-if>
+      </sc-for>
+    </div>
+
+    <div role="tabpanel" style="background: #DCEBE2; border-radius: 32px; padding: clamp(24px, 4vw, 56px); overflow: hidden">
+      <sc-if value="{{isPay}}" hint-placeholder-val="{{true}}">
+        <div class="jq-in" style="display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+          <div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+            <h3 style="margin: 0; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(28px, 3vw, 40px); line-height: 1.06; letter-spacing: -0.03em">Расчёт месяца готов, пока вы пьёте кофе</h3>
+            <p style="margin: 0; color: #33413B">ОПВ, ВОСМС, ИПН, ОПВР, СО, ООСМС и соцналог — по каждому сотруднику и в сумме. Сверху видно, сколько выплатить людям и сколько уйдёт в бюджет.</p>
+            <a href="#calc" style="font-weight: 700">Посчитать на своём окладе →</a>
+          </div>
+          <img src="/_blob/b3e2b1619d7962b3758d4b4bc5c8eefe" alt="Расчёт зарплаты за октябрь в Jalaqy" style="flex: 1.4 1 460px; min-width: 0; width: 100%; height: auto; display: block; border-radius: 16px; box-shadow: 0 20px 50px rgba(15,42,36,.18)">
+        </div>
+      </sc-if>
+      <sc-if value="{{isTime}}" hint-placeholder-val="{{false}}">
+        <div class="jq-in" style="display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+          <div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+            <h3 style="margin: 0; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(28px, 3vw, 40px); line-height: 1.06; letter-spacing: -0.03em">Отпуска и табель без отдельного файла</h3>
+            <p style="margin: 0; color: #33413B">Сотрудник просит отпуск в телефоне, владелец одобряет одной кнопкой, а дни сами попадают в расчёт месяца.</p>
+          </div>
+          <div style="flex: 1 1 360px; display: flex; justify-content: center">
+            <img src="/_blob/a7aae2a997f2836731ba6338d78046b9" alt="Экран владельца с заявкой на отпуск" style="width: 280px; height: auto; display: block; border-radius: 32px; box-shadow: 0 20px 50px rgba(15,42,36,.2)">
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{isSlip}}" hint-placeholder-val="{{false}}">
+        <div class="jq-in" style="display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+          <div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+            <h3 style="margin: 0; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(28px, 3vw, 40px); line-height: 1.06; letter-spacing: -0.03em">Сотрудник понимает, из чего его зарплата</h3>
+            <p style="margin: 0; color: #33413B">Начисления, удержания и то, сколько компания заплатила за него сверху. Меньше вопросов «почему пришло меньше оклада».</p>
+          </div>
+          <div style="flex: 1 1 360px; display: flex; justify-content: center">
+            <img src="/_blob/8528a18bb6698eb210ca537f6e940d58" alt="Расчётный листок сотрудника" style="width: 280px; height: auto; display: block; border-radius: 32px; box-shadow: 0 20px 50px rgba(15,42,36,.2)">
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{isAcc}}" hint-placeholder-val="{{false}}">
+        <div class="jq-in" style="display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+          <div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+            <h3 style="margin: 0; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(28px, 3vw, 40px); line-height: 1.06; letter-spacing: -0.03em">Налоги и платёжки готовы — осталось оплатить</h3>
+            <p style="margin: 0; color: #33413B">Jalaqy готовит платёжки по всем взносам и данные для единого платежа, напоминает о сроке, а раз в квартал заполняет форму 200.00. Вы оплачиваете в своём банке за пару минут.</p>
+            <a href="#how" style="font-weight: 700">Как проходит месяц →</a>
+          </div>
+          <img src="/_blob/b3e2b1619d7962b3758d4b4bc5c8eefe" alt="Кабинет бухгалтера в Jalaqy" style="flex: 1.4 1 460px; min-width: 0; width: 100%; height: auto; display: block; border-radius: 16px; box-shadow: 0 20px 50px rgba(15,42,36,.18)">
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <section id="calc" style="background: #0F2A24; color: #FBF8F1">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 104px 24px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+      <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+        <p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #F2C14E">Калькулятор</p>
+        <h2 style="margin: 0; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(34px, 4.4vw, 60px); line-height: 1.02; letter-spacing: -0.035em">Сколько на самом деле стоит сотрудник?</h2>
+        <p style="margin: 0; max-width: 480px; color: #C9D6D0">Введите оклад — и увидите, сколько человек получит на руки и сколько компания доплатит сверху. Так же Jalaqy считает весь месяц, только сразу по всем.</p>
+      </div>
+      <div style="flex: 1 1 440px; min-width: 0; max-width: 520px; background: #FFFFFF; color: #0F2A24; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.3)">
+        <label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600; color: #55625C">Оклад до удержаний, ₸
+          <input type="text" inputmode="numeric" value="{{salaryRaw}}" onInput="{{onSalary}}" aria-label="Оклад до удержаний в тенге" style="height: 66px; padding: 0 18px; border: 2px solid #0F2A24; border-radius: 16px; background: #FBF8F1; color: #0F2A24; font-family: 'Onest', sans-serif; font-weight: 800; font-size: 34px; font-variant-numeric: tabular-nums; letter-spacing: -0.02em">
+        </label>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <sc-for list="{{presets}}" as="p" hint-placeholder-count="4">
+            <button type="button" onClick="{{p.pick}}" style="min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #D9D3C3; background: #FFFFFF; color: #0F2A24; font-size: 14px; font-weight: 600; cursor: pointer">{{p.label}}</button>
+          </sc-for>
+        </div>
+        <label style="display: flex; align-items: center; gap: 10px; min-height: 32px; font-size: 15px">
+          <input type="checkbox" checked="{{ded}}" onChange="{{onDed}}" style="width: 18px; height: 18px"> Есть заявление на вычет 30 МРП
+        </label>
+        <div style="display: flex; flex-direction: column">
+          <div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #ECE8DE; font-size: 15px"><span style="color: #55625C">Пенсионные, ОПВ 10%</span><span style="font-variant-numeric: tabular-nums">{{opv}}</span></div>
+          <div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #ECE8DE; font-size: 15px"><span style="color: #55625C">Медстраховка, ВОСМС 2%</span><span style="font-variant-numeric: tabular-nums">{{vosms}}</span></div>
+          <div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #ECE8DE; font-size: 15px"><span style="color: #55625C">Подоходный налог, ИПН</span><span style="font-variant-numeric: tabular-nums">{{ipn}}</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0 4px; border-top: 1px solid #ECE8DE"><span style="font-weight: 700">На руки</span><span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 34px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums">{{net}}</span></div>
+        </div>
+        <div style="background: #DCEBE2; border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
+          <div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-weight: 600">Компания доплачивает</span><span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 22px; color: #1F6B52; font-variant-numeric: tabular-nums">{{emp}}</span></div>
+          <div style="font-size: 13px; color: #33413B; font-variant-numeric: tabular-nums">ОПВР {{opvr}} · СО {{so}} · ООСМС {{oosms}} · соцналог {{sn}}</div>
+          <div style="display: flex; justify-content: space-between; padding-top: 8px; border-top: 1px solid #C2D9CB; font-size: 15px"><span>Всего сотрудник стоит компании</span><b style="font-variant-numeric: tabular-nums">{{total}}</b></div>
+        </div>
+        <p style="margin: 0; font-size: 12.5px; line-height: 1.5; color: #55625C">Полный месяц, ставки 2026: МЗП 85 000 ₸, МРП 4 325 ₸. Порог 15% по ИПН при годовом доходе выше 8 500 МРП в сервисе считается с начала года.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" style="max-width: 1240px; margin: 0 auto; padding: 112px 24px; display: flex; flex-direction: column; gap: 40px">
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px">
+      <h2 style="margin: 0; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(34px, 4.4vw, 60px); line-height: 1.02; letter-spacing: -0.035em; max-width: 860px">Как проходит месяц, когда бухгалтера нет</h2>
+      <p style="margin: 0; max-width: 560px; color: #55625C">Пять шагов. Ваши — только первый раз и одна кнопка в конце.</p>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: stretch">
+      <ol style="list-style: none; margin: 0; padding: 0; flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+        <sc-for list="{{steps}}" as="s" hint-placeholder-count="5">
+          <li>
+            <sc-if value="{{s.active}}" hint-placeholder-val="{{false}}">
+              <button type="button" aria-current="step" onClick="{{s.pick}}" style="width: 100%; text-align: left; display: flex; gap: 16px; align-items: flex-start; padding: 18px 20px; border-radius: 20px; border: 1.5px solid #0F2A24; background: #0F2A24; color: #FBF8F1; cursor: pointer">
+                <span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; background: #F2C14E; color: #0F2A24; display: flex; align-items: center; justify-content: center; font-family: 'Onest', sans-serif; font-weight: 800">{{s.n}}</span>
+                <span style="display: flex; flex-direction: column; gap: 4px"><b style="font-size: 18px">{{s.title}}</b><span style="font-size: 15px; color: #C9D6D0">{{s.text}}</span></span>
+              </button>
+            </sc-if>
+            <sc-if value="{{s.idle}}" hint-placeholder-val="{{true}}">
+              <button type="button" onClick="{{s.pick}}" style="width: 100%; text-align: left; display: flex; gap: 16px; align-items: center; padding: 16px 20px; border-radius: 20px; border: 1.5px solid #ECE8DE; background: #FFFFFF; color: #0F2A24; cursor: pointer">
+                <span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; background: #EFEADD; display: flex; align-items: center; justify-content: center; font-family: 'Onest', sans-serif; font-weight: 800">{{s.n}}</span>
+                <span style="display: flex; flex-direction: column; gap: 2px"><b style="font-size: 17px">{{s.title}}</b><span style="font-size: 13px; color: #55625C">{{s.who}}</span></span>
+              </button>
+            </sc-if>
+          </li>
+        </sc-for>
+      </ol>
+
+      <div style="flex: 1.2 1 440px; min-width: 0; background: #DCEBE2; border-radius: 32px; padding: clamp(24px, 4vw, 48px); display: flex; align-items: center; justify-content: center; min-height: 420px">
+        <sc-if value="{{st1}}" hint-placeholder-val="{{true}}">
+          <div class="jq-in" style="width: 100%; max-width: 420px; background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 20px 50px rgba(15,42,36,.15)">
+            <b style="font-family: 'Onest', sans-serif; font-size: 20px">Пригласить сотрудника</b>
+            <div style="display: flex; gap: 8px"><span style="flex: 1; height: 48px; border-radius: 12px; border: 1px solid #D9D3C3; display: flex; align-items: center; padding: 0 14px; color: #55625C; font-size: 15px">+7 701 *** ** 14</span><span style="height: 48px; padding: 0 16px; border-radius: 12px; background: #1F6B52; color: #FFFFFF; display: flex; align-items: center; font-weight: 700; font-size: 14px">Ссылка в WhatsApp</span></div>
+            <div style="display: flex; flex-direction: column">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-top: 1px solid #ECE8DE; font-size: 15px"><span>Данияр К. · 320 000 ₸</span><span style="font-size: 12px; font-weight: 700; color: #174F3D; background: #DCEBE2; border-radius: 999px; padding: 4px 10px">заполнил</span></div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-top: 1px solid #ECE8DE; font-size: 15px"><span>Асель Б. · 300 000 ₸</span><span style="font-size: 12px; font-weight: 700; color: #174F3D; background: #DCEBE2; border-radius: 999px; padding: 4px 10px">заполнила</span></div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-top: 1px solid #ECE8DE; font-size: 15px"><span>Тимур А. · 200 000 ₸</span><span style="font-size: 12px; font-weight: 700; color: #6B4E00; background: #FBEFC9; border-radius: 999px; padding: 4px 10px">ждём ИИН</span></div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{st2}}" hint-placeholder-val="{{false}}">
+          <div class="jq-in" style="width: 100%; max-width: 420px; background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 20px 50px rgba(15,42,36,.15)">
+            <b style="font-family: 'Onest', sans-serif; font-size: 20px">Октябрь · исключения</b>
+            <span style="font-size: 14px; color: #55625C">Остальные отработали полный месяц</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-radius: 14px; background: #FBF8F1; font-size: 15px"><span>Асель Б.</span><span style="font-size: 13px; font-weight: 700; color: #6B4E00; background: #FBEFC9; border-radius: 999px; padding: 4px 10px">отпуск 10–14</span></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-radius: 14px; background: #FBF8F1; font-size: 15px"><span>Мадина Ж.</span><span style="font-size: 13px; font-weight: 700; color: #174F3D; background: #DCEBE2; border-radius: 999px; padding: 4px 10px">премия 50 000 ₸</span></div>
+            <span style="height: 44px; border-radius: 12px; border: 1.5px dashed #C9C2AE; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: #55625C">+ Отметить больничный или прогул</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{st3}}" hint-placeholder-val="{{false}}">
+          <div class="jq-in" style="width: 100%; max-width: 360px; background: #0F2A24; color: #FBF8F1; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 20px 50px rgba(15,42,36,.25)">
+            <span style="font-size: 14px; font-weight: 600; color: #F2C14E">Зарплата за октябрь готова</span>
+            <b style="font-family: 'Onest', sans-serif; font-size: 38px; letter-spacing: -0.02em">1 558 890 ₸</b>
+            <span style="font-size: 14px; color: #C9D6D0">к выплате 6 сотрудникам · налоги 615 546 ₸</span>
+            <span style="height: 54px; border-radius: 999px; background: #F2C14E; color: #0F2A24; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 17px">Подтвердить выплату</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{st4}}" hint-placeholder-val="{{false}}">
+          <div class="jq-in" style="width: 100%; max-width: 420px; background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 20px 50px rgba(15,42,36,.15)">
+            <b style="font-family: 'Onest', sans-serif; font-size: 20px">Готово к оплате</b>
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px; border-radius: 14px; background: #FBF8F1"><span style="display: flex; flex-direction: column"><b style="font-size: 15px">Зарплата, 6 человек</b><span style="font-size: 13px; color: #55625C">1 558 890 ₸</span></span><span style="font-size: 13px; font-weight: 700; color: #1F6B52">Файл для банка ↓</span></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px; border-radius: 14px; background: #FBF8F1"><span style="display: flex; flex-direction: column"><b style="font-size: 15px">Налоги и взносы</b><span style="font-size: 13px; color: #55625C">615 546 ₸ · до 25 ноября</span></span><span style="font-size: 13px; font-weight: 700; color: #1F6B52">Платёжки ↓</span></div>
+            <span style="font-size: 13px; color: #55625C">Оплачиваете в своём банке. Напомним за 3 дня до срока.</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{st5}}" hint-placeholder-val="{{false}}">
+          <div class="jq-in" style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap; justify-content: center">
+            <img src="/_blob/8528a18bb6698eb210ca537f6e940d58" alt="Расчётный листок сотрудника в телефоне" style="width: 200px; height: auto; display: block; border-radius: 26px; box-shadow: 0 20px 50px rgba(15,42,36,.2)">
+            <div style="width: 200px; background: #FFFFFF; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 20px 50px rgba(15,42,36,.12)">
+              <b style="font-size: 15px">Форма 200.00</b>
+              <span style="font-size: 13px; color: #55625C">IV квартал · заполнена</span>
+              <span style="font-size: 13px; font-weight: 700; color: #1F6B52">Отправить с ЭЦП →</span>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 28px; border-radius: 24px; background: #FFFFFF; border: 1px solid #ECE8DE">
+      <span style="display: flex; flex-direction: column; gap: 2px"><b style="font-size: 17px">Уже работаете с бухгалтером?</b><span style="font-size: 15px; color: #55625C">Подключите его — он будет проверять расчёт, а вы подтверждать.</span></span>
+      <a href="#waitlist" style="display: inline-flex; align-items: center; min-height: 46px; padding: 0 20px; border-radius: 999px; border: 1.5px solid #0F2A24; color: #0F2A24; text-decoration: none; font-weight: 700">Подключить бухгалтера</a>
+    </div>
+  </section>
+
+  <section style="padding: 0 24px">
+    <div style="max-width: 1240px; margin: 0 auto; background: #F2C14E; border-radius: 32px; padding: clamp(32px, 5vw, 64px); display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px">
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 56px; line-height: 1; letter-spacing: -0.04em">7–8</span><span style="font-size: 16px">обязательных платежей с каждого сотрудника считаются сами</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 56px; line-height: 1; letter-spacing: -0.04em">1</span><span style="font-size: 16px">кнопка, чтобы владелец подтвердил выплату</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 56px; line-height: 1; letter-spacing: -0.04em">0 ₸</span><span style="font-size: 16px">за первый месяц для компаний в пилоте</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 56px; line-height: 1; letter-spacing: -0.04em">РК</span><span style="font-size: 16px">все данные хранятся на серверах в Казахстане</span></div>
+    </div>
+  </section>
+
+  <section id="price" style="max-width: 1240px; margin: 0 auto; padding: 112px 24px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+    <div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+      <h2 style="margin: 0; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(34px, 4.4vw, 60px); line-height: 1.02; letter-spacing: -0.035em">Простая цена. Платите за тех, кто работает.</h2>
+      <p style="margin: 0; color: #55625C; max-width: 460px">5 000 ₸ в месяц за компанию и 1 000 ₸ за каждого сотрудника. Без внедрения и без годовых контрактов.</p>
+    </div>
+    <div style="flex: 1 1 440px; min-width: 0; max-width: 540px; background: #FFFFFF; border: 1px solid #ECE8DE; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 20px 60px rgba(15,42,36,.08)">
+      <label style="display: flex; flex-direction: column; gap: 14px; font-size: 15px; font-weight: 600">
+        <span style="display: flex; justify-content: space-between"><span>Сотрудников в компании</span><span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 20px">{{nLabel}}</span></span>
+        <input type="range" min="1" max="50" value="{{n}}" onInput="{{onN}}" aria-label="Количество сотрудников" style="width: 100%; height: 28px">
+      </label>
+      <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap">
+        <span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(48px, 5vw, 68px); line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums">{{price}}</span>
+        <span style="color: #55625C">в месяц</span>
+      </div>
+      <p style="margin: 0; padding: 14px 16px; border-radius: 14px; background: #DCEBE2; font-size: 15px">Компаниям в пилоте — <b>первый месяц бесплатно</b>.</p>
+      <a href="#waitlist" style="display: flex; align-items: center; justify-content: center; min-height: 54px; border-radius: 999px; background: #1F6B52; color: #FFFFFF; text-decoration: none; font-weight: 700">Попасть в пилот</a>
+    </div>
+  </section>
+
+  <section style="padding: 0 24px">
+    <div style="max-width: 1240px; margin: 0 auto; background: #DCEBE2; border-radius: 32px; padding: clamp(32px, 5vw, 64px); display: flex; flex-direction: column; gap: 36px">
+      <h2 style="margin: 0; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.04; letter-spacing: -0.03em">Начать — это три шага</h2>
+      <ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px">
+        <li class="jq-lift" style="background: #FFFFFF; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 40px; color: #1F6B52; line-height: 1">1</span><b style="font-size: 19px">Оставьте заявку</b><span style="color: #55625C; font-size: 16px">Напишем в течение рабочего дня и разберём ваш случай.</span></li>
+        <li class="jq-lift" style="background: #FFFFFF; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 40px; color: #1F6B52; line-height: 1">2</span><b style="font-size: 19px">Перенесём сотрудников</b><span style="color: #55625C; font-size: 16px">Из Excel или от вашего бухгалтера — сами, без вашего времени.</span></li>
+        <li class="jq-lift" style="background: #FFFFFF; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 40px; color: #1F6B52; line-height: 1">3</span><b style="font-size: 19px">Первая зарплата вместе</b><span style="color: #55625C; font-size: 16px">Считаем параллельно с текущим способом и сверяем до тенге.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="faq" style="max-width: 900px; margin: 0 auto; padding: 112px 24px 96px; display: flex; flex-direction: column; gap: 28px">
+    <h2 style="margin: 0; text-align: center; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(32px, 4vw, 52px); line-height: 1.04; letter-spacing: -0.03em">Частые вопросы</h2>
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <details style="background: #FFFFFF; border: 1px solid #ECE8DE; border-radius: 20px; padding: 4px 24px">
+        <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 68px; font-family: 'Onest', sans-serif; font-weight: 700; font-size: 19px">Чем это отличается от единого платежа в кабинете налогоплательщика?<span class="jq-sign" aria-hidden="true" style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; background: #DCEBE2; color: #1F6B52; display: flex; align-items: center; justify-content: center; font-size: 22px; transition: transform .2s">+</span></summary>
+        <p style="margin: 0 0 22px; color: #33413B">Единый платёж закрывает оплату взносов. Jalaqy делает всё вокруг него: табель, отпуска, расчёт по каждому сотруднику, подтверждение владельцем и расчётные листки — и готовит данные для платежа.</p>
+      </details>
+      <details style="background: #FFFFFF; border: 1px solid #ECE8DE; border-radius: 20px; padding: 4px 24px">
+        <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 68px; font-family: 'Onest', sans-serif; font-weight: 700; font-size: 19px">Нужен ли мне бухгалтер?<span class="jq-sign" aria-hidden="true" style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; background: #DCEBE2; color: #1F6B52; display: flex; align-items: center; justify-content: center; font-size: 22px; transition: transform .2s">+</span></summary>
+        <p style="margin: 0 0 22px; color: #33413B">Для зарплаты — нет: расчёт, удержания, взносы, платёжки и форму 200.00 готовит Jalaqy. Если вы ТОО, общую бухгалтерию компании (баланс, НДС, первичку) по-прежнему ведёт бухгалтер — но зарплату ему считать уже не нужно.</p>
+      </details>
+      <details style="background: #FFFFFF; border: 1px solid #ECE8DE; border-radius: 20px; padding: 4px 24px">
+        <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 68px; font-family: 'Onest', sans-serif; font-weight: 700; font-size: 19px">Кто добавляет сотрудников?<span class="jq-sign" aria-hidden="true" style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; background: #DCEBE2; color: #1F6B52; display: flex; align-items: center; justify-content: center; font-size: 22px; transition: transform .2s">+</span></summary>
+        <p style="margin: 0 0 22px; color: #33413B">Вы или управляющий отправляете ссылку-приглашение в WhatsApp. Сотрудник сам вносит ИИН, карту и заявление на вычет, вы указываете только оклад.</p>
+      </details>
+      <details style="background: #FFFFFF; border: 1px solid #ECE8DE; border-radius: 20px; padding: 4px 24px">
+        <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 68px; font-family: 'Onest', sans-serif; font-weight: 700; font-size: 19px">Нужно ли что-то делать в налоговой?<span class="jq-sign" aria-hidden="true" style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; background: #DCEBE2; color: #1F6B52; display: flex; align-items: center; justify-content: center; font-size: 22px; transition: transform .2s">+</span></summary>
+        <p style="margin: 0 0 22px; color: #33413B">Раз в квартал — отправить готовую форму 200.00 со своей ЭЦП в кабинете налогоплательщика. Jalaqy заполнит её и напомнит о сроке.</p>
+      </details>
+      <details style="background: #FFFFFF; border: 1px solid #ECE8DE; border-radius: 20px; padding: 4px 24px">
+        <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 68px; font-family: 'Onest', sans-serif; font-weight: 700; font-size: 19px">Где хранятся данные сотрудников?<span class="jq-sign" aria-hidden="true" style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; background: #DCEBE2; color: #1F6B52; display: flex; align-items: center; justify-content: center; font-size: 22px; transition: transform .2s">+</span></summary>
+        <p style="margin: 0 0 22px; color: #33413B">На серверах в дата-центре в Казахстане, как требует закон о персональных данных. Доступ — по ролям: сотрудник видит только свой листок.</p>
+      </details>
+      <details style="background: #FFFFFF; border: 1px solid #ECE8DE; border-radius: 20px; padding: 4px 24px">
+        <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 68px; font-family: 'Onest', sans-serif; font-weight: 700; font-size: 19px">Что если в расчёте ошибка?<span class="jq-sign" aria-hidden="true" style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; background: #DCEBE2; color: #1F6B52; display: flex; align-items: center; justify-content: center; font-size: 22px; transition: transform .2s">+</span></summary>
+        <p style="margin: 0 0 22px; color: #33413B">В пилоте мы считаем параллельно с вашим текущим способом и сверяем каждую цифру до тенге, прежде чем вы начнёте платить по расчёту Jalaqy.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="waitlist" style="padding: 0 24px 112px">
+    <div style="max-width: 1240px; margin: 0 auto; background: #0F2A24; color: #FBF8F1; border-radius: 36px; padding: clamp(32px, 5vw, 72px); display: flex; flex-wrap: wrap; gap: 48px; align-items: center; position: relative; overflow: hidden">
+      <svg aria-hidden="true" viewBox="0 0 400 400" style="position: absolute; right: -120px; top: -120px; width: 420px; height: 420px">
+        <circle cx="200" cy="200" r="200" fill="#1F6B52"></circle>
+        <circle cx="200" cy="200" r="120" fill="#F2C14E" fill-opacity="0.9"></circle>
+      </svg>
+      <div style="position: relative; flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+        <h2 style="margin: 0; font-family: 'Onest', sans-serif; font-weight: 800; font-size: clamp(34px, 4.4vw, 60px); line-height: 1.02; letter-spacing: -0.035em">Посчитаем следующую зарплату вместе</h2>
+        <p style="margin: 0; color: #C9D6D0; max-width: 440px">Оставьте контакт — напишем в течение рабочего дня и предложим бесплатный месяц пилота.</p>
+      </div>
+      <div style="position: relative; flex: 1 1 420px; min-width: 0; background: #FFFFFF; color: #0F2A24; border-radius: 26px; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Имя
+          <input type="text" autocomplete="name" style="height: 52px; padding: 0 16px; border: 1px solid #D9D3C3; border-radius: 14px; font-size: 16px; color: #0F2A24; background: #FBF8F1">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Телефон или Telegram
+          <input type="text" autocomplete="tel" placeholder="+7 7__ ___ __ __" style="height: 52px; padding: 0 16px; border: 1px solid #D9D3C3; border-radius: 14px; font-size: 16px; color: #0F2A24; background: #FBF8F1">
+        </label>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px">
+          <label style="flex: 1 1 140px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Сотрудников
+            <input type="text" inputmode="numeric" style="height: 52px; padding: 0 16px; border: 1px solid #D9D3C3; border-radius: 14px; font-size: 16px; color: #0F2A24; background: #FBF8F1">
+          </label>
+          <fieldset style="flex: 1 1 180px; margin: 0; padding: 0; border: none; display: flex; flex-direction: column; gap: 6px">
+            <legend style="font-size: 14px; font-weight: 600; margin-bottom: 6px">Я</legend>
+            <div style="display: flex; gap: 16px; min-height: 52px; align-items: center">
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 15px"><input type="radio" name="role" checked> владелец</label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 15px"><input type="radio" name="role"> бухгалтер</label>
+            </div>
+          </fieldset>
+        </div>
+        <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; line-height: 1.45; color: #33413B"><input type="checkbox" style="width: 18px; height: 18px; margin-top: 1px; flex-shrink: 0"> <span>Согласен на обработку персональных данных по <a href="#privacy">политике конфиденциальности</a></span></label>
+        <button type="button" style="height: 56px; border: none; border-radius: 999px; background: #1F6B52; color: #FFFFFF; font-size: 17px; font-weight: 700; cursor: pointer">Оставить заявку</button>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top: 1px solid #ECE8DE; font-size: 14px; color: #55625C">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 40px 24px 56px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span style="font-family: 'Onest', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.04em; color: #0F2A24">jalaqy</span>
+        <span>[ИП Ожанов Д. С., ИИН/БИН]</span>
+        <span>© 2026 Jalaqy</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 48px">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <span style="color: #0F2A24; font-weight: 600">Связь</span>
+          <a href="mailto:hello@jalaqy.kz">hello@jalaqy.kz</a>
+          <a href="#">Instagram и Threads · @jalaqy</a>
+          <a href="#">Telegram · @jalaqy</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <span style="color: #0F2A24; font-weight: 600">Документы</span>
+          <a id="privacy" href="#">Политика конфиденциальности</a>
+          <a href="#">Публичная оферта</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const tab = st.tab || 'pay';
+    const role = st.role || 'owner';
+    const n = st.n != null ? st.n : 15;
+    const s = st.salary != null ? st.salary : 320000;
+    const ded = st.ded != null ? st.ded : true;
+
+    const MZP = 85000, MRP = 4325, r = Math.round;
+    let opv = 0, vosms = 0, ipn = 0, opvr = 0, so = 0, oosms = 0, sn = 0;
+    if (s > 0) {
+      opv = r(0.10 * Math.min(s, 50 * MZP));
+      vosms = r(0.02 * Math.min(s, 20 * MZP));
+      ipn = r(0.10 * Math.max(0, s - opv - vosms - (ded ? 30 * MRP : 0)));
+      opvr = r(0.035 * Math.min(Math.max(s, MZP), 50 * MZP));
+      so = r(0.05 * Math.min(Math.max(s - opv, MZP), 7 * MZP));
+      oosms = r(0.03 * Math.min(s, 40 * MZP));
+      sn = r(0.06 * Math.max(s - opv - vosms, 14 * MRP));
+    }
+    const net = s - opv - vosms - ipn;
+    const emp = opvr + so + oosms + sn;
+    const f = x => x.toLocaleString('ru-RU') + ' ₸';
+    const minus = x => (x > 0 ? '−' : '') + f(x);
+
+    const tabDefs = [
+      { id: 'pay', label: 'Расчёт зарплаты' },
+      { id: 'time', label: 'Отпуска и табель' },
+      { id: 'slip', label: 'Листки сотрудникам' },
+      { id: 'acc', label: 'Налоги и платёжки' }
+    ];
+    const tabs = tabDefs.map(t => ({ label: t.label, active: t.id === tab, idle: t.id !== tab, pick: () => this.setState({ tab: t.id }) }));
+
+    const step = st.step || 1;
+    const stepDefs = [
+      { n: 1, title: 'Добавьте сотрудников', who: 'один раз · 2 минуты', text: 'Отправьте ссылку в WhatsApp — сотрудник сам внесёт ИИН и карту. Вам остаётся указать оклад.' },
+      { n: 2, title: 'Отметьте исключения', who: 'вы · раз в месяц', text: 'По умолчанию все отработали полный месяц. Отметьте только отпуск, больничный или премию.' },
+      { n: 3, title: 'Подтвердите выплату', who: 'вы · одна кнопка', text: 'Jalaqy считает удержания и взносы по ставкам 2026. Вы смотрите итог и нажимаете «Подтвердить».' },
+      { n: 4, title: 'Оплатите в банке', who: 'вы · пара минут', text: 'Готовим файл для зарплатного проекта и платёжки по налогам. Напомним о сроке.' },
+      { n: 5, title: 'Листки и отчёт', who: 'делает Jalaqy', text: 'Сотрудники видят листки в телефоне. Раз в квартал — готовая форма 200.00 для отправки с ЭЦП.' }
+    ];
+    const steps = stepDefs.map(x => ({ n: x.n, title: x.title, who: x.who, text: x.text, active: x.n === step, idle: x.n !== step, pick: () => this.setState({ step: x.n }) }));
+
+    const roleDefs = [
+      { id: 'owner', label: 'Владелец' },
+      { id: 'acc', label: 'Бухгалтер' },
+      { id: 'emp', label: 'Сотрудник' }
+    ];
+    const roles = roleDefs.map(x => ({ label: x.label, active: x.id === role, idle: x.id !== role, pick: () => this.setState({ role: x.id }) }));
+    const cardsByRole = {
+      owner: [
+        { n: '1', title: 'Видите итог до выплаты', text: 'Сколько людям, сколько в бюджет и сколько стоит весь ФОТ — на одном экране.' },
+        { n: '2', title: 'Подтверждаете с телефона', text: 'Одна кнопка вместо переписки с бухгалтером и пересчёта в Excel.' },
+        { n: '3', title: 'Знаете, что изменилось', text: 'Новые сотрудники, повышения и отпуска с прошлого месяца — сразу видно.' }
+      ],
+      acc: [
+        { n: '1', title: 'Все клиенты в одном окне', text: 'Переключайтесь между компаниями без отдельных файлов и папок.' },
+        { n: '2', title: 'Ставки обновляются сами', text: 'Новые ставки и пределы Налогового кодекса 2026 уже в формулах.' },
+        { n: '3', title: 'Выгрузка в 1С и Excel', text: 'Ничего не перепечатываете, платёжки готовятся из расчёта. [Условия партнёрства]' }
+      ],
+      emp: [
+        { n: '1', title: 'Понятный листок', text: 'Начислено, удержано и сколько компания заплатила за вас сверху.' },
+        { n: '2', title: 'Отпуск в два касания', text: 'Заявка из телефона, ответ владельца приходит туда же.' },
+        { n: '3', title: 'Справка без очереди', text: 'Справка с места работы — по запросу в приложении.' }
+      ]
+    };
+
+    const presets = [150000, 320000, 550000, 1000000].map(v => ({ label: v.toLocaleString('ru-RU') + ' ₸', pick: () => this.setState({ salary: v }) }));
+
+    const m10 = n % 10, m100 = n % 100;
+    const word = (m10 === 1 && m100 !== 11) ? 'сотрудник' : (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) ? 'сотрудника' : 'сотрудников';
+
+    return {
+      tabs: tabs,
+      isPay: tab === 'pay', isTime: tab === 'time', isSlip: tab === 'slip', isAcc: tab === 'acc',
+      steps: steps,
+      st1: step === 1, st2: step === 2, st3: step === 3, st4: step === 4, st5: step === 5,
+      presets: presets,
+      salaryRaw: String(s), ded: ded,
+      opv: minus(opv), vosms: minus(vosms), ipn: minus(ipn),
+      net: f(net), emp: f(emp), total: f(s + emp),
+      opvr: f(opvr), so: f(so), oosms: f(oosms), sn: f(sn),
+      onSalary: e => {
+        const v = parseInt(String(e.target.value).replace(/\D/g, ''), 10);
+        this.setState({ salary: isNaN(v) ? 0 : Math.min(v, 100000000) });
+      },
+      onDed: () => this.setState({ ded: !ded }),
+      n: n,
+      nLabel: n + ' ' + word,
+      price: f(5000 + 1000 * n),
+      onN: e => this.setState({ n: parseInt(e.target.value, 10) || 1 })
+    };
+  }
+}
+</script>
+</body>
+</html>

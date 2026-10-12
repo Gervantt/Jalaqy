@@ -1,0 +1,8 @@
+design/
+public/
+.next/
+node_modules/
+test-results/
+playwright-report/
+docs/screens/
+package-lock.json

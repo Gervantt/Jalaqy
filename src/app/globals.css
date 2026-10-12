@@ -1,0 +1,127 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/* Тема Tailwind поверх CSS-переменных: bg-ink, text-muted, rounded-card… */
+@theme inline {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #ffffff;
+
+  --color-ink: var(--ink);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-accent: var(--accent);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-text-2: var(--text-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-divider: var(--divider);
+  --color-success-bg: var(--success-bg);
+  --color-success-text: var(--success-text);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-text: var(--warning-text);
+  --color-warning-icon: var(--warning-icon);
+  --color-danger: var(--danger);
+  --color-danger-hover: var(--danger-hover);
+  --color-danger-bg: var(--danger-bg);
+  --color-on-ink: var(--on-ink);
+  --color-on-ink-text: var(--on-ink-text);
+  --color-on-ink-soft: var(--on-ink-soft);
+  --color-on-ink-muted: var(--on-ink-muted);
+  --color-ink-hover: var(--ink-hover);
+  --color-ink-divider: var(--ink-divider);
+  --color-cream: var(--cream);
+  --color-mint: var(--mint);
+  --color-mint-line: var(--mint-line);
+  --color-sand: var(--sand);
+  --color-sand-line: var(--sand-line);
+  --color-sand-border: var(--sand-border);
+  --color-sand-soft: var(--sand-soft);
+  --color-sand-dashed: var(--sand-dashed);
+
+  --font-sans: var(--font-golos), system-ui, sans-serif;
+  --font-display: var(--font-onest), var(--font-golos), system-ui, sans-serif;
+
+  /* Шкала размеров из дизайна (дополняет xs 12 / sm 14 / base 16 / lg 18 / xl 20 / 2xl 24 / 3xl 30) */
+  --text-caption: 13px;
+  --text-caption--line-height: 1.45;
+  --text-body: 15px;
+  --text-body--line-height: 1.45;
+  --text-lead: 17px;
+  --text-lead--line-height: 1.5;
+  --text-title-sm: 22px;
+  --text-title-sm--line-height: 1.2;
+  --text-title: 26px;
+  --text-title--line-height: 1.15;
+  --text-h1: 32px;
+  --text-h1--line-height: 1.1;
+  --text-amount: 34px;
+  --text-amount--line-height: 1.1;
+
+  --tracking-display: -0.02em;
+  --tracking-logo: -0.04em;
+  --tracking-caps: 0.08em;
+
+  /* Радиусы: кнопки 12–14, карточки 16–22, пилюли 999 */
+  --radius-nav: 10px;
+  --radius-button: var(--btn-radius);
+  --radius-button-lg: var(--btn-radius-lg);
+  --radius-card: 16px;
+  --radius-card-lg: 18px;
+  --radius-sheet: 22px;
+  --radius-icon: 28px;
+
+  /* Единственная разрешённая тень — у «выплывающих» элементов */
+  --shadow-float: 0 12px 32px rgba(15, 42, 36, 0.16);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--primary);
+  }
+  a:hover {
+    color: var(--ink);
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  th,
+  td {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
