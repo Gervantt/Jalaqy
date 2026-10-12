@@ -23,6 +23,7 @@
   --border: #d5dcd6;
   --border-strong: #cbd5ce; /* рамка вторичной кнопки, 1.5px */
   --divider: #e7ece8; /* строки таблиц, таббар */
+  --field-border: #7d8a84; /* не в дизайне: рамка полей ввода, ≥3:1 (WCAG 1.4.11) */
 
   /* Статусы */
   --success-bg: #e2ece6;

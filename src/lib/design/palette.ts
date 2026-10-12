@@ -29,6 +29,7 @@ export const extraPalette: PaletteColor[] = [
   { key: "text2", token: "--text-2", hex: "#33413B" },
   { key: "borderStrong", token: "--border-strong", hex: "#CBD5CE" },
   { key: "divider", token: "--divider", hex: "#E7ECE8" },
+  { key: "fieldBorder", token: "--field-border", hex: "#7D8A84" },
   { key: "successText", token: "--success-text", hex: "#174F3D" },
   { key: "warningIcon", token: "--warning-icon", hex: "#6B4E00" },
   { key: "danger", token: "--danger", hex: "#B42318" },

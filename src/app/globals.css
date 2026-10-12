@@ -1,6 +1,21 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
 
+/*
+ * Состояния для витрины (/styleguide): data-preview="hover|focus" показывает
+ * hover/focus статично. В компонентах вместо hover: пишем is-hover:.
+ */
+@custom-variant is-hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+  &[data-preview~="hover"] {
+    @slot;
+  }
+}
+
 /* Тема Tailwind поверх CSS-переменных: bg-ink, text-muted, rounded-card… */
 @theme inline {
   --color-*: initial;
@@ -19,6 +34,7 @@
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-divider: var(--divider);
+  --color-field-border: var(--field-border);
   --color-success-bg: var(--success-bg);
   --color-success-text: var(--success-text);
   --color-warning-bg: var(--warning-bg);
@@ -109,9 +125,29 @@
     font-variant-numeric: tabular-nums;
   }
 
-  :focus-visible {
+  :focus-visible,
+  [data-preview~="focus"] {
     outline: 3px solid var(--focus);
     outline-offset: 2px;
+  }
+}
+
+/* Нативный <dialog>: затемнение фона */
+dialog::backdrop {
+  background: rgb(15 42 36 / 0.45);
+}
+
+@keyframes jq-sheet-in {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+}
+
+@keyframes jq-toast-in {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
   }
 }
 
